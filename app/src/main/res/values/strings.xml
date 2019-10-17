@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">Not Faggot!</string>
+
+    <string name="login_title">Вход</string>
+    <string name="login_button_text">Войти</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Password</string>
+
+    <string name="registration_title">Регистрация</string>
+    <string name="registration_button_text">Зарегистрироваться</string>
+    <string name="registration_name_hint">Name</string>
+    <string name="registration_email_hint">Email</string>
+    <string name="registration_password_hint">Password</string>
+    <string name="registration_repeat_password_hint">Repeat password</string>
+
+    <string name="tasks_list_no_task_img_description">No tasks</string>
+    <string name="tasks_list_no_task_text">У вас пока нет дел.\nСчастливый вы человек!</string>
+
+    <string name="task_category_name">Default category name</string>
+    <string name="task_task_name">Default task name</string>
+    <string name="task_task_beginning">Default task beginning</string>
+
+    <string name="details_date_default">00.00.0000</string>
+    <string name="details_task_name_default">Task name</string>
+    <string name="details_task_state_default">Task state</string>
+    <string name="details_task_description_default">Task description</string>
+    <string name="details_task_category_default">Task category</string>
+    <string name="details_task_priority_default">Task priority</string>
+    <string name="details_task_time_img_description">Time icon</string>
+    <string name="details_task_category_img_description">Category icon</string>
+    <string name="details_edit">Редактировать</string>
+
+    <string name="create_screen_name_default">Screen name</string>
+    <string name="create_task_name_hint">Название</string>
+    <string name="create_description">Описание</string>
+    <string name="create_task_description_hint">Task description</string>
+    <string name="create_task_description_size_default">0 / 120</string>
+    <string name="create_add_category_description">Add category</string>
+    <string name="create_task_ending_hint">Сделать до</string>
+    <string name="create_save">Сохранить</string>
+
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_registration">RegistrationActivity</string>
+    <string name="title_activity_task_create">TaskCreateActivity</string>
+    <string name="title_activity_task_details">TaskDetailsActivity</string>
+    <string name="title_activity_tasks_list">TasksListActivity</string>
+
+</resources>

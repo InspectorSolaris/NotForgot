@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.mobilelab">
+
+    <application
+        android:fullBackupContent="false"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme.Launcher">
+        <activity
+            android:name=".view.tasksList.TasksListActivity"
+            android:label="@string/title_activity_tasks_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.taskDetails.TaskDetailsActivity"
+            android:label="@string/title_activity_task_details"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.taskCreate.TaskCreateActivity"
+            android:label="@string/title_activity_task_create"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.registration.RegistrationActivity"
+            android:label="@string/title_activity_registration"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.login.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

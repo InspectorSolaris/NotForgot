@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#F78545</color>
+    <color name="colorPrimaryDark">#C56A37</color>
+    <color name="colorAccent">#F68545</color>
+
+    <color name="titleTextColor">#FFFFFF</color>
+
+    <color name="entryPrimaryButton">@color/colorPrimary</color>
+    <color name="entryPrimaryButtonText">#FFFFFF</color>
+    <color name="entrySecondaryButton">#D8D8D8</color>
+    <color name="entrySecondaryButtonText">#484848</color>
+
+    <color name="tasksListTaskName">#000000</color>
+    <color name="tasksListTaskDescription">#7A7A7A</color>
+    <color name="tasksListCategory">#636363</color>
+
+    <color name="detailsTaskName">#636363</color>
+    <color name="detailsTaskDescription">#000000</color>
+    <color name="detailsTaskMeta">#636363</color>
+    <color name="detailsTaskNotDone">#F71919</color>
+    <color name="detailsTaskDone">#06B003</color>
+    <color name="detailsTaskPriorityText">#FFFFFF</color>
+    <color name="detailsTaskPriorityLow">#4CAF50</color>
+    <color name="detailsTaskPriorityMedium">#FFEB3B</color>
+    <color name="detailsTaskPriorityHigh">#FC4040</color>
+    <color name="detailsBackground">#F9F9F9</color>
+
+    <color name="createScreenTitle">#636363</color>
+    <color name="createBackground">#F9F9F9</color>
+    <color name="createDescription">#6F6F6F</color>
+    <color name="createInputBackground">#F3F3F3</color>
+    <color name="createInputText">#1F1F1F</color>
+
+    <color name="inputError">#DB4437</color>
+
+</resources>
