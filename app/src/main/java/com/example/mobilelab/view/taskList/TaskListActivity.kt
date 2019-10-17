@@ -1,4 +1,4 @@
-package com.example.mobilelab.view.tasksList
+package com.example.mobilelab.view.taskList
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
@@ -7,7 +7,7 @@ import com.example.mobilelab.R
 
 import kotlinx.android.synthetic.main.activity_tasks_list.*
 
-class TasksListActivity : AppCompatActivity() {
+class TaskListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

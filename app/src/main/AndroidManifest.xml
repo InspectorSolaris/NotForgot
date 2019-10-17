@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Launcher">
         <activity
-            android:name=".view.tasksList.TasksListActivity"
+            android:name=".view.taskList.TaskListActivity"
             android:label="@string/title_activity_tasks_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
