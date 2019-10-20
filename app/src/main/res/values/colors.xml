@@ -11,9 +11,10 @@
     <color name="entrySecondaryButton">#D8D8D8</color>
     <color name="entrySecondaryButtonText">#484848</color>
 
-    <color name="tasksListTaskName">#000000</color>
-    <color name="tasksListTaskDescription">#7A7A7A</color>
-    <color name="tasksListCategory">#636363</color>
+    <color name="taskListTaskName">#000000</color>
+    <color name="taskListTaskDescription">#7A7A7A</color>
+    <color name="taskListCategory">#636363</color>
+    <color name="taskListSwipeToDeleteBackground">#FF0000</color>
 
     <color name="detailsTaskName">#636363</color>
     <color name="detailsTaskDescription">#000000</color>

@@ -1,5 +1,6 @@
 package com.example.mobilelab.view.taskList.recyclerView
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,17 +9,36 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobilelab.R
-import com.example.mobilelab.model.TaskViewData
+import com.example.mobilelab.model.Data
+import com.example.mobilelab.model.DataList
 import kotlinx.android.synthetic.main.task_view_category.view.*
 import kotlinx.android.synthetic.main.task_view_task.view.*
 
 class TaskListAdapter(
-    private val taskList: ArrayList<TaskViewData>
+    val context: Context,
+    private val dataList: DataList,
+    private val listener: Listener
 ) : RecyclerView.Adapter<TaskListAdapter.TaskListViewHolder>() {
+
+    interface Listener {
+
+        fun onListChange(
+            size: Int
+        )
+
+    }
 
     open class TaskListViewHolder(
         view: View
     ) : RecyclerView.ViewHolder(view)
+
+    class CategoryViewHolder(
+        category: View
+    ) : TaskListViewHolder(category) {
+
+        var name: TextView = category.nullName
+
+    }
 
     class TaskViewHolder(
         task: View
@@ -29,14 +49,6 @@ class TaskListAdapter(
         var beginning: TextView = task.taskBeginning
         var done: CheckBox = task.taskDone
 
-    }
-
-    class CategoryViewHolder(
-        category: View
-    ) : TaskListViewHolder(category) {
-
-        var name: TextView = category.categoryName
-        
     }
 
     override fun onCreateViewHolder(
@@ -58,7 +70,7 @@ class TaskListAdapter(
             else -> {
                 LayoutInflater
                     .from(parent.context)
-                    .inflate(R.layout.task_view_category, parent, false)
+                    .inflate(R.layout.task_view_null, parent, false)
             }
         }
 
@@ -71,35 +83,46 @@ class TaskListAdapter(
     ) {
         when (holder) {
             is CategoryViewHolder -> {
-                holder.name.text = taskList[position].category
+                holder.name.text = dataList.dataList[position].category
             }
             is TaskViewHolder -> {
                 holder.apply {
-                    if (
-                        taskList[position].color != null &&
-                        taskList[position].name != null &&
-                        taskList[position].description != null &&
-                        taskList[position].state != null
-                    ) {
-                        color.background = taskList[position].color
-                        name.text = taskList[position].name
-                        beginning.text = taskList[position].description
-                        done.isChecked = taskList[position].state!!
-                    }
+                    color.background = dataList.dataList[position].color!!
+                    name.text = dataList.dataList[position].name!!
+                    beginning.text = dataList.dataList[position].description!!
+                    done.isChecked = dataList.dataList[position].state!!
                 }
             }
         }
     }
 
-    override fun getItemCount() = taskList.size
+    override fun getItemCount() = dataList.dataList.size
 
     override fun getItemViewType(
         position: Int
     ): Int {
-        return when (taskList[position].isTask) {
+        return when (dataList.dataList[position].isTask) {
             false -> 0
             true -> 1
         }
+    }
+
+    fun deleteData(
+        position: Int
+    ) {
+        dataList.deleteData(position)
+        listener.onListChange(dataList.dataList.size)
+
+        notifyDataSetChanged()
+    }
+
+    fun addData(
+        data: Data
+    ) {
+        dataList.addData(data)
+        listener.onListChange(dataList.dataList.size)
+
+        notifyDataSetChanged()
     }
 
 }

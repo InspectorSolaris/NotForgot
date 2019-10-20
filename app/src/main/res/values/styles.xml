@@ -27,7 +27,6 @@
     <style name="FloatingActionButtonStyle" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="backgroundTint">@color/colorAccent</item>
         <item name="tint">#FFFFFF</item>
-        <item name="android:tintMode">add</item>
     </style>
 
     <style name="PrimaryButton" parent="Widget.MaterialComponents.Button">

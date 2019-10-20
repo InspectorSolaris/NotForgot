@@ -74,7 +74,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <Spinner
-            android:id="@+id/categoryName"
+            android:id="@+id/nullName"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginStart="8dp"

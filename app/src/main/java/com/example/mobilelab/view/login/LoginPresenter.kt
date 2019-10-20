@@ -8,6 +8,10 @@ class LoginPresenter(
     private var loginView: LoginInterface?
 ) {
 
+    fun onDestroy() {
+        loginView = null
+    }
+
     fun onLoginButtonClick(
         email: String,
         password: String
@@ -33,15 +37,12 @@ class LoginPresenter(
         loginView?.onRegistrationButtonClick()
     }
 
-    fun onDestroy() {
-        loginView = null
-    }
-
     private fun userIsRegistered(
         email: String,
         password: String
     ): Boolean {
-        return true
+        return email.isNotEmpty()
+                && password.isNotEmpty()
     }
 
 }

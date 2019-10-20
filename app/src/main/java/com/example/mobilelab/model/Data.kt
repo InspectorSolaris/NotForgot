@@ -2,7 +2,7 @@ package com.example.mobilelab.model
 
 import android.graphics.drawable.ColorDrawable
 
-data class TaskViewData(
+class Data(
     var category: String,
     var color: ColorDrawable?,
     var name: String?,
