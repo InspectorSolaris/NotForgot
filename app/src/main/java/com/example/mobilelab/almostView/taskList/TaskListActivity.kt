@@ -1,4 +1,4 @@
-package com.example.mobilelab.view.taskList
+package com.example.mobilelab.almostView.taskList
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,11 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mobilelab.R
-import com.example.mobilelab.model.Data
-import com.example.mobilelab.model.DataList
-import com.example.mobilelab.view.taskCreate.TaskCreateActivity
-import com.example.mobilelab.view.taskList.recyclerView.TaskListAdapter
-import com.example.mobilelab.view.taskList.recyclerView.TaskListSwipeToDeleteSimpleCallback
+import com.example.mobilelab.model.data.TaskData
+import com.example.mobilelab.almostView.taskCreate.TaskCreateActivity
+import com.example.mobilelab.almostView.taskList.recyclerView.TaskListAdapter
+import com.example.mobilelab.almostView.taskList.recyclerView.TaskListSwipeToDeleteSimpleCallback
 
 import kotlinx.android.synthetic.main.activity_task_list.*
 import kotlinx.android.synthetic.main.content_task_list.*
@@ -47,12 +46,12 @@ class TaskListActivity :
     }
 
     override fun initRecyclerView(
-        dataList: DataList
+        taskDataList: ArrayList<TaskData>
     ) {
         val context = this
         val adapter = TaskListAdapter(
             this,
-            dataList,
+            taskDataList,
             object : TaskListAdapter.Listener {
 
                 override fun onListChange(

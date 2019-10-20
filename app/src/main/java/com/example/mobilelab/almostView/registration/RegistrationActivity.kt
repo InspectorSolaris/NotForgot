@@ -1,10 +1,10 @@
-package com.example.mobilelab.view.registration
+package com.example.mobilelab.almostView.registration
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mobilelab.R
-import com.example.mobilelab.view.taskList.TaskListActivity
+import com.example.mobilelab.almostView.taskList.TaskListActivity
 import kotlinx.android.synthetic.main.content_registration.*
 
 class RegistrationActivity :

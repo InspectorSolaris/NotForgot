@@ -1,4 +1,4 @@
-package com.example.mobilelab.view.login
+package com.example.mobilelab.almostView.login
 
 interface LoginInterface {
 

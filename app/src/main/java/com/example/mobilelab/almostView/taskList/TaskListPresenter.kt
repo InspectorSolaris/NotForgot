@@ -1,7 +1,7 @@
-package com.example.mobilelab.view.taskList
+package com.example.mobilelab.almostView.taskList
 
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.example.mobilelab.view.taskList.recyclerView.TaskListAdapter
+import com.example.mobilelab.almostView.taskList.recyclerView.TaskListAdapter
 
 class TaskListPresenter(
     private var taskListView: TaskListInterface?

@@ -1,4 +1,4 @@
-package com.example.mobilelab.view.taskDetails
+package com.example.mobilelab.almostView.taskDetails
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

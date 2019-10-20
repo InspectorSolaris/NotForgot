@@ -1,4 +1,4 @@
-package com.example.mobilelab.view.registration
+package com.example.mobilelab.almostView.registration
 
 import android.content.Context
 import android.widget.Toast
