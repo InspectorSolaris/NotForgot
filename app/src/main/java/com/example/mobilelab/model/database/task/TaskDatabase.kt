@@ -1,4 +1,4 @@
-package com.example.mobilelab.model.database
+package com.example.mobilelab.model.database.task
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
@@ -7,6 +7,6 @@ import com.example.mobilelab.model.data.TaskData
 @Database(entities = [TaskData::class], version = 1)
 abstract class TaskDatabase : RoomDatabase() {
 
-    abstract fun taskDataDao() : TaskDataDao
+    abstract fun taskDataDao(): TaskDataDao
 
 }

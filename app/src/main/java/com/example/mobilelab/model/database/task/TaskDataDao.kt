@@ -1,4 +1,4 @@
-package com.example.mobilelab.model.database
+package com.example.mobilelab.model.database.task
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -9,7 +9,7 @@ import com.example.mobilelab.model.data.TaskData
 interface TaskDataDao {
 
     @Query("SELECT * FROM TaskData")
-    fun getAllTaskData() : ArrayList<TaskData>
+    fun getAllTaskData(): ArrayList<TaskData>
 
     @Insert
     fun addTaskData(taskData: TaskData)
