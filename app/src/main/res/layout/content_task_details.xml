@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/detailsBackground"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".almostView.taskDetails.TaskDetailsActivity"
+    tools:context=".view.taskDetails.TaskDetailsActivity"
     tools:showIn="@layout/activity_task_details">
 
     <TextView

@@ -1,4 +1,4 @@
-package com.example.mobilelab.almostView.taskList
+package com.example.mobilelab.view.taskList
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,9 +8,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mobilelab.R
 import com.example.mobilelab.model.data.TaskData
-import com.example.mobilelab.almostView.taskCreate.TaskCreateActivity
-import com.example.mobilelab.almostView.taskList.recyclerView.TaskListAdapter
-import com.example.mobilelab.almostView.taskList.recyclerView.TaskListSwipeToDeleteSimpleCallback
+import com.example.mobilelab.presenter.taskList.TaskListPresenter
+import com.example.mobilelab.view.taskCreate.TaskCreateActivity
+import com.example.mobilelab.presenter.taskList.recyclerView.TaskListAdapter
+import com.example.mobilelab.presenter.taskList.recyclerView.TaskListSwipeToDeleteSimpleCallback
 
 import kotlinx.android.synthetic.main.activity_task_list.*
 import kotlinx.android.synthetic.main.content_task_list.*
@@ -52,7 +53,8 @@ class TaskListActivity :
         val adapter = TaskListAdapter(
             this,
             taskDataList,
-            object : TaskListAdapter.Listener {
+            object :
+                TaskListAdapter.Listener {
 
                 override fun onListChange(
                     size: Int
@@ -66,7 +68,11 @@ class TaskListActivity :
 
             }
         )
-        val itemTouchHelper = ItemTouchHelper(TaskListSwipeToDeleteSimpleCallback(adapter)).also {
+        val itemTouchHelper = ItemTouchHelper(
+            TaskListSwipeToDeleteSimpleCallback(
+                adapter
+            )
+        ).also {
             it.attachToRecyclerView(taskList)
         }
 

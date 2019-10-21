@@ -1,8 +1,9 @@
-package com.example.mobilelab.almostView.login
+package com.example.mobilelab.presenter.login
 
 import android.content.Context
 import android.widget.Toast
 import com.example.mobilelab.R
+import com.example.mobilelab.view.login.LoginInterface
 
 class LoginPresenter(
     private var loginView: LoginInterface?

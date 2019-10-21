@@ -1,17 +1,19 @@
-package com.example.mobilelab.almostView.registration
+package com.example.mobilelab.view.registration
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mobilelab.R
-import com.example.mobilelab.almostView.taskList.TaskListActivity
+import com.example.mobilelab.presenter.registration.RegistrationPresenter
+import com.example.mobilelab.view.taskList.TaskListActivity
 import kotlinx.android.synthetic.main.content_registration.*
 
 class RegistrationActivity :
     AppCompatActivity(),
     RegistrationInterface {
 
-    private var registrationPresenter = RegistrationPresenter(this)
+    private var registrationPresenter =
+        RegistrationPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,8 +1,9 @@
-package com.example.mobilelab.almostView.registration
+package com.example.mobilelab.presenter.registration
 
 import android.content.Context
 import android.widget.Toast
 import com.example.mobilelab.R
+import com.example.mobilelab.view.registration.RegistrationInterface
 
 class RegistrationPresenter(
     private var registrationView: RegistrationInterface?

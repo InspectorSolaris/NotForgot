@@ -1,4 +1,4 @@
-package com.example.mobilelab.almostView.registration
+package com.example.mobilelab.view.registration
 
 interface RegistrationInterface {
 

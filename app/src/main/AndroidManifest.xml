@@ -11,23 +11,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Launcher">
         <activity
-            android:name=".almostView.taskList.TaskListActivity"
+            android:name=".view.taskList.TaskListActivity"
             android:label="@string/title_activity_tasks_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".almostView.taskDetails.TaskDetailsActivity"
+            android:name=".view.taskDetails.TaskDetailsActivity"
             android:label="@string/title_activity_task_details"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".almostView.taskCreate.TaskCreateActivity"
+            android:name=".view.taskCreate.TaskCreateActivity"
             android:label="@string/title_activity_task_create"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".almostView.registration.RegistrationActivity"
+            android:name=".view.registration.RegistrationActivity"
             android:label="@string/title_activity_registration"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".almostView.login.LoginActivity"
+            android:name=".view.login.LoginActivity"
             android:label="@string/title_activity_login"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>

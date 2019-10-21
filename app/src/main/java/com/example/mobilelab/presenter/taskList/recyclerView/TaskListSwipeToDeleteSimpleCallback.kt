@@ -1,4 +1,4 @@
-package com.example.mobilelab.almostView.taskList.recyclerView
+package com.example.mobilelab.presenter.taskList.recyclerView
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView

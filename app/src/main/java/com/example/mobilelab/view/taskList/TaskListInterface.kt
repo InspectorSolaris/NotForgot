@@ -1,4 +1,4 @@
-package com.example.mobilelab.almostView.taskList
+package com.example.mobilelab.view.taskList
 
 import com.example.mobilelab.model.data.TaskData
 

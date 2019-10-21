@@ -1,4 +1,4 @@
-package com.example.mobilelab.almostView.taskList.recyclerView
+package com.example.mobilelab.presenter.taskList.recyclerView
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -75,7 +75,9 @@ class TaskListAdapter(
             }
         }
 
-        return TaskListViewHolder(view)
+        return TaskListViewHolder(
+            view
+        )
     }
 
     override fun onBindViewHolder(
