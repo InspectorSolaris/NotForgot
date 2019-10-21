@@ -12,8 +12,7 @@ class RegistrationActivity :
     AppCompatActivity(),
     RegistrationInterface {
 
-    private var registrationPresenter =
-        RegistrationPresenter(this)
+    private val registrationPresenter = RegistrationPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

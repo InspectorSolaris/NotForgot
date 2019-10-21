@@ -20,12 +20,14 @@ class TaskListActivity :
     AppCompatActivity(),
     TaskListInterface {
 
-    private var taskListPresenter = TaskListPresenter(this)
+    private lateinit var taskListPresenter: TaskListPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_list)
         setSupportActionBar(toolbar)
+
+        taskListPresenter = TaskListPresenter(this, applicationContext)
 
         fab.setOnClickListener {
             taskListPresenter.onFloatingActionButtonClick()

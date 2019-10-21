@@ -97,6 +97,8 @@ class TaskListAdapter(
                 }
             }
         }
+
+        listener.onListChange(taskDataList.size)
     }
 
     override fun getItemCount() = taskDataList.size

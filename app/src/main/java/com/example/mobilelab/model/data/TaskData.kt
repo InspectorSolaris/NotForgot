@@ -11,6 +11,7 @@ class TaskData(
     var color: ColorDrawable?,
     var name: String?,
     var description: String?,
+    var priority: Int?,
     var state: Boolean?,
     var isTask: Boolean,
     @PrimaryKey(autoGenerate = true) val id: Int = 0

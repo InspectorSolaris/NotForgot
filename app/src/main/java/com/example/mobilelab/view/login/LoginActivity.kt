@@ -13,7 +13,7 @@ class LoginActivity :
     AppCompatActivity(),
     LoginInterface {
 
-    private var loginPresenter = LoginPresenter(this)
+    private val loginPresenter = LoginPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

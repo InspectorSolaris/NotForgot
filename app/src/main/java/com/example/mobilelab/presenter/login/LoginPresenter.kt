@@ -3,11 +3,18 @@ package com.example.mobilelab.presenter.login
 import android.content.Context
 import android.widget.Toast
 import com.example.mobilelab.R
+import com.example.mobilelab.model.SharedPreferencesHandler
 import com.example.mobilelab.view.login.LoginInterface
 
 class LoginPresenter(
     private var loginView: LoginInterface?
 ) {
+
+    private val context = loginView as Context
+    private val sharedPreferencesHandler = SharedPreferencesHandler(
+        context,
+        context.getString(R.string.shared_preferences_file)
+    )
 
     fun onDestroy() {
         loginView = null
@@ -22,6 +29,10 @@ class LoginPresenter(
                 password
             )
         ) {
+            sharedPreferencesHandler.saveString(
+                context.getString(R.string.shared_preferences_user_key),
+                email
+            )
             loginView?.onSuccessLogin()
         } else {
             Toast

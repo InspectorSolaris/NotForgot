@@ -3,11 +3,18 @@ package com.example.mobilelab.presenter.registration
 import android.content.Context
 import android.widget.Toast
 import com.example.mobilelab.R
+import com.example.mobilelab.model.SharedPreferencesHandler
 import com.example.mobilelab.view.registration.RegistrationInterface
 
 class RegistrationPresenter(
     private var registrationView: RegistrationInterface?
 ) {
+
+    private val context = registrationView as Context
+    private val sharedPreferencesHandler = SharedPreferencesHandler(
+        context,
+        context.getString(R.string.shared_preferences_file)
+    )
 
     fun onDestroy() {
         registrationView = null
@@ -26,6 +33,10 @@ class RegistrationPresenter(
                 password2
             )
         ) {
+            sharedPreferencesHandler.saveString(
+                context.getString(R.string.shared_preferences_user_key),
+                email
+            )
             registrationView?.onSuccessRegistration()
         } else {
             Toast
