@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 @Entity
 class TaskData(
     var category: String,
+    var taskOwner: String?,
     var color: ColorDrawable?,
     var name: String?,
     var description: String?,

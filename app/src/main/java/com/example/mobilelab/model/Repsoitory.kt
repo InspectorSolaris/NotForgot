@@ -4,8 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.mobilelab.model.data.TaskData
 import com.example.mobilelab.model.data.UserData
-import com.example.mobilelab.model.database.task.TaskDatabase
-import com.example.mobilelab.model.database.user.UserDatabase
+import com.example.mobilelab.model.database.AppDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -15,28 +14,24 @@ class Repsoitory(
     context: Context
 ) {
 
-    private val taskDatabase: TaskDatabase = Room.databaseBuilder(
+    private val appDatabase: AppDatabase = Room.databaseBuilder(
         context,
-        TaskDatabase::class.java,
-        TASK_DATABASE_NAME
-    ).build()
-
-    private val userDatabase: UserDatabase = Room.databaseBuilder(
-        context,
-        UserDatabase::class.java,
-        USER_DATABASE_NAME
+        AppDatabase::class.java,
+        APP_DATABASE_NAME
     ).build()
 
     companion object {
-        private const val TASK_DATABASE_NAME = "taskDatabase"
-        private const val USER_DATABASE_NAME = "userDatabase"
+        private const val APP_DATABASE_NAME = "appDatabase"
     }
 
     fun getAllTaskData(
+        user: String,
         onGetTaskData: (taskData: ArrayList<TaskData>) -> Unit
     ) {
         GlobalScope.launch(Dispatchers.Main) {
-            val taskData = withContext(Dispatchers.IO) { taskDatabase.taskDataDao().getAllTaskData() }
+            val taskData = withContext(Dispatchers.IO) {
+                appDatabase.taskDataDao().getAllTaskData(user)
+            }
 
             onGetTaskData(taskData)
         }
@@ -47,7 +42,7 @@ class Repsoitory(
         onSave: () -> Unit
     ) {
         GlobalScope.launch(Dispatchers.IO) {
-            taskDatabase.taskDataDao().addTaskData(newTaskData)
+            appDatabase.taskDataDao().addTaskData(newTaskData)
 
             onSave()
         }
@@ -57,7 +52,9 @@ class Repsoitory(
         onGetUserData: (userData: ArrayList<UserData>) -> Unit
     ) {
         GlobalScope.launch(Dispatchers.Main) {
-            val userData = withContext(Dispatchers.IO) { userDatabase.userDataDao().getAllUserData() }
+            val userData = withContext(Dispatchers.IO) {
+                appDatabase.userDataDao().getAllUserData()
+            }
 
             onGetUserData(userData)
         }
@@ -68,7 +65,7 @@ class Repsoitory(
         onSave: () -> Unit
     ) {
         GlobalScope.launch(Dispatchers.IO) {
-            userDatabase.userDataDao().addUserData(newUserData)
+            appDatabase.userDataDao().addUserData(newUserData)
 
             onSave()
         }

@@ -1,4 +1,4 @@
-package com.example.mobilelab.model.database.user
+package com.example.mobilelab.model.database
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -12,6 +12,8 @@ interface UserDataDao {
     fun getAllUserData(): ArrayList<UserData>
 
     @Insert
-    fun addUserData(userData: UserData)
+    fun addUserData(
+        userData: UserData
+    )
 
 }
