@@ -8,8 +8,8 @@ import androidx.room.PrimaryKey
 class TaskData(
     var category: String,
     var taskOwner: String?,
-    var color: ColorDrawable?,
-    var name: String?,
+    var color: String?,
+    var title: String?,
     var description: String?,
     var priority: Int?,
     var state: Boolean?,

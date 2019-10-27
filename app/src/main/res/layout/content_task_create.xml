@@ -26,13 +26,13 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:background="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/screenName">
 
         <EditText
-            android:id="@+id/taskName"
+            android:id="@+id/taskTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -47,7 +47,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/taskEnding"
+            android:id="@+id/taskDeadline"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -69,12 +69,12 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/createInputBackground"
-            app:layout_constraintBottom_toTopOf="@+id/taskEnding"
+            app:layout_constraintBottom_toTopOf="@+id/taskDeadline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <Spinner
-            android:id="@+id/nullName"
+            android:id="@+id/taskCategory"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
@@ -91,11 +91,9 @@
             android:layout_height="48dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:background="#00000000"
+            android:background="@drawable/ic_add_black_24dp"
+            android:backgroundTint="@color/colorPrimary"
             android:contentDescription="@string/create_add_category_description"
-            android:scaleX="2"
-            android:scaleY="2"
-            android:tint="@color/colorPrimary"
             app:layout_constraintBottom_toTopOf="@+id/taskPriority"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -111,7 +109,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.573"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/taskName">
+            app:layout_constraintTop_toBottomOf="@+id/taskTitle">
 
             <TextView
                 android:id="@+id/description"
@@ -157,7 +155,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/save"
         style="@style/PrimaryButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

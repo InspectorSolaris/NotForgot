@@ -8,8 +8,8 @@ import com.example.mobilelab.model.data.UserData
 @Dao
 interface UserDataDao {
 
-    @Query("SELECT * FROM UserData")
-    fun getAllUserData(): ArrayList<UserData>
+    @Query("SELECT * FROM userdata")
+    fun getAllUserData(): List<UserData>
 
     @Insert
     fun addUserData(

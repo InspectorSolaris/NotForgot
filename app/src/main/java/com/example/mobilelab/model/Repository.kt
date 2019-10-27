@@ -33,7 +33,7 @@ class Repository(
                 appDatabase.taskDataDao().getAllTaskData(user)
             }
 
-            onGetTaskData(taskData)
+            onGetTaskData(ArrayList(taskData))
         }
     }
 
@@ -56,7 +56,7 @@ class Repository(
                 appDatabase.userDataDao().getAllUserData()
             }
 
-            onGetUserData(userData)
+            onGetUserData(ArrayList(userData))
         }
     }
 

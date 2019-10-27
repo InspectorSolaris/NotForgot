@@ -37,7 +37,7 @@ class TaskListAdapter(
         category: View
     ) : TaskListViewHolder(category) {
 
-        var name: TextView = category.nullName
+        var title: TextView = category.taskCategory
 
     }
 
@@ -46,9 +46,9 @@ class TaskListAdapter(
     ) : TaskListViewHolder(task) {
 
         var color: ConstraintLayout = task.taskColor
-        var name: TextView = task.taskName
-        var beginning: TextView = task.taskBeginning
-        var done: CheckBox = task.taskDone
+        var title: TextView = task.taskTitle
+        var description: TextView = task.taskBeginning
+        var state: CheckBox = task.taskDone
 
     }
 
@@ -88,14 +88,14 @@ class TaskListAdapter(
     ) {
         when (holder) {
             is CategoryViewHolder -> {
-                holder.name.text = taskDataList[position].category
+                holder.title.text = taskDataList[position].category
             }
             is TaskViewHolder -> {
                 holder.apply {
-                    color.background = taskDataList[position].color!!
-                    name.text = taskDataList[position].name!!
-                    beginning.text = taskDataList[position].description!!
-                    done.isChecked = taskDataList[position].state!!
+//                    color.background = taskDataList[position].color!!
+                    title.text = taskDataList[position].title!!
+                    description.text = taskDataList[position].description!!
+                    state.isChecked = taskDataList[position].state!!
                 }
             }
         }

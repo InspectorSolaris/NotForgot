@@ -11,10 +11,7 @@ class LoginPresenter(
 ) {
 
     private val context = loginView as Context
-    private val sharedPreferencesHandler = SharedPreferencesHandler(
-        context,
-        context.getString(R.string.shared_preferences_file)
-    )
+    private lateinit var sharedPreferencesHandler: SharedPreferencesHandler
 
     fun onDestroy() {
         loginView = null
@@ -24,6 +21,11 @@ class LoginPresenter(
         email: String,
         password: String
     ) {
+        sharedPreferencesHandler = SharedPreferencesHandler(
+            context,
+            context.getString(R.string.shared_preferences_file)
+        )
+
         if (userIsRegistered(
                 email,
                 password

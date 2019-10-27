@@ -11,7 +11,7 @@ interface TaskDataDao {
     @Query("SELECT * FROM TaskData WHERE taskOwner == :user")
     fun getAllTaskData(
         user: String
-    ): ArrayList<TaskData>
+    ): List<TaskData>
 
     @Insert
     fun addTaskData(

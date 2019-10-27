@@ -10,7 +10,7 @@
     tools:showIn="@layout/activity_task_details">
 
     <TextView
-        android:id="@+id/taskName"
+        android:id="@+id/taskTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -30,7 +30,7 @@
         app:layout_constraintBottom_toTopOf="@+id/edit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskName">
+        app:layout_constraintTop_toBottomOf="@+id/taskTitle">
 
         <TextView
             android:id="@+id/taskBeginning"
@@ -64,7 +64,7 @@
             android:scrollbars="vertical"
             android:text="@string/details_task_description_default"
             android:textColor="@color/detailsTaskDescription"
-            app:layout_constraintBottom_toTopOf="@+id/taskEndingImg"
+            app:layout_constraintBottom_toTopOf="@+id/taskDeadlineImg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/taskBeginning" />
@@ -82,7 +82,7 @@
             app:srcCompat="@drawable/ic_format_list_bulleted_black_24dp" />
 
         <ImageView
-            android:id="@+id/taskEndingImg"
+            android:id="@+id/taskDeadlineImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -94,7 +94,7 @@
             app:srcCompat="@drawable/ic_access_time_black_24dp" />
 
         <TextView
-            android:id="@+id/taskCategoryText"
+            android:id="@+id/taskCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -104,14 +104,14 @@
             app:layout_constraintStart_toEndOf="@+id/taskCategoryImg" />
 
         <TextView
-            android:id="@+id/taskEndingText"
+            android:id="@+id/taskDeadline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/details_date_default"
             app:layout_constraintBottom_toTopOf="@+id/taskCategoryImg"
-            app:layout_constraintStart_toEndOf="@+id/taskEndingImg" />
+            app:layout_constraintStart_toEndOf="@+id/taskDeadlineImg" />
 
         <TextView
             android:id="@+id/taskPriority"
