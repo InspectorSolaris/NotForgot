@@ -57,27 +57,29 @@ class TaskListAdapter(
         viewType: Int
     ): TaskListViewHolder {
 
-        val view = when (viewType) {
+        when (viewType) {
             0 -> {
-                LayoutInflater
-                    .from(parent.context)
-                    .inflate(R.layout.task_view_category, parent, false)
+                return TaskViewHolder(
+                    LayoutInflater
+                        .from(parent.context)
+                        .inflate(R.layout.task_view_category, parent, false)
+                )
             }
             1 -> {
-                LayoutInflater
-                    .from(parent.context)
-                    .inflate(R.layout.task_view_task, parent, false)
+                return CategoryViewHolder(
+                    LayoutInflater
+                        .from(parent.context)
+                        .inflate(R.layout.task_view_task, parent, false)
+                )
             }
             else -> {
-                LayoutInflater
-                    .from(parent.context)
-                    .inflate(R.layout.task_view_null, parent, false)
+                return TaskListViewHolder(
+                    LayoutInflater
+                        .from(parent.context)
+                        .inflate(R.layout.task_view_null, parent, false)
+                )
             }
         }
-
-        return TaskListViewHolder(
-            view
-        )
     }
 
     override fun onBindViewHolder(

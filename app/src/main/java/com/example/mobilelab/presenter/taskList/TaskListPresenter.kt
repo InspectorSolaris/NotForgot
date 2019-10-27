@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.mobilelab.R
 import com.example.mobilelab.model.Repository
 import com.example.mobilelab.model.SharedPreferencesHandler
+import com.example.mobilelab.model.server.array.ArrayOfTasks
 import com.example.mobilelab.presenter.taskList.recyclerView.TaskListAdapter
 import com.example.mobilelab.view.taskList.TaskListInterface
 
