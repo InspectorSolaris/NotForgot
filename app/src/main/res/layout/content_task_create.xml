@@ -61,29 +61,49 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <Spinner
-            android:id="@+id/taskPriority"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/createInputBackground"
-            app:layout_constraintBottom_toTopOf="@+id/taskDeadline"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Spinner
-            android:id="@+id/taskCategory"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/taskCategoryLayout"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:backgroundTint="@color/createInputBackground"
-            app:layout_constraintBottom_toTopOf="@+id/taskPriority"
+            android:background="@drawable/rounded_top_shape"
+            app:layout_constraintBottom_toTopOf="@+id/taskPriorityLayout"
             app:layout_constraintEnd_toStartOf="@+id/addCategory"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Spinner
+                android:id="@+id/taskCategory"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/taskPriorityLayout"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/rounded_top_shape"
+            app:layout_constraintBottom_toTopOf="@+id/taskDeadline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Spinner
+                android:id="@+id/taskPriority"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageButton
             android:id="@+id/addCategory"
@@ -94,16 +114,18 @@
             android:background="@drawable/ic_add_black_24dp"
             android:backgroundTint="@color/colorPrimary"
             android:contentDescription="@string/create_add_category_description"
-            app:layout_constraintBottom_toTopOf="@+id/taskPriority"
+            app:layout_constraintBottom_toTopOf="@+id/taskPriorityLayout"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
+            android:background="@drawable/rounded_top_shape"
             android:backgroundTint="@color/createInputBackground"
             app:layout_constraintBottom_toTopOf="@+id/taskDescriptionSize"
             app:layout_constraintEnd_toEndOf="parent"

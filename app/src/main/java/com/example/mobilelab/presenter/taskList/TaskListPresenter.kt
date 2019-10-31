@@ -32,13 +32,13 @@ class TaskListPresenter(
     }
 
     fun initRecyclerView() {
-        repository.getAllTaskData(
-            sharedPreferencesHandler.readString(
-                context.getString(R.string.shared_preferences_user_key)
-            )
-        ) {
-            taskListView?.initRecyclerView(it)
-        }
+//        repository.getAllTaskData(
+//            sharedPreferencesHandler.readString(
+//                context.getString(R.string.shared_preferences_user_key)
+//            )
+//        ) {
+//            taskListView?.initRecyclerView(it)
+//        }
     }
 
     fun setTaskListAdapter(

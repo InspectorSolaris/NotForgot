@@ -1,6 +1,5 @@
 package com.example.mobilelab.model.data
 
-import android.graphics.drawable.ColorDrawable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 

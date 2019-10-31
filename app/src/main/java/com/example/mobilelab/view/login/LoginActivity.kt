@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mobilelab.R
+import com.example.mobilelab.model.Repository
 import com.example.mobilelab.presenter.login.LoginPresenter
 import com.example.mobilelab.view.registration.RegistrationActivity
 import com.example.mobilelab.view.taskList.TaskListActivity
@@ -18,6 +19,8 @@ class LoginActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        val repository = Repository(this)
 
         loginButton.setOnClickListener {
             loginPresenter.onLoginButtonClick(

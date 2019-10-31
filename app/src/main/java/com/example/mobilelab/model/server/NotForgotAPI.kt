@@ -29,7 +29,6 @@ interface NotForgotAPI {
     ): Call<Token>
 
 
-
     @GET("/categories")
     fun getCategories(
         @Header("Accept") accept: String
@@ -46,7 +45,6 @@ interface NotForgotAPI {
     ): Call<ArrayOfTasks>
 
 
-
     @POST("/categories")
     fun postCategories(
         @Header("Accept") accept: String,
@@ -58,7 +56,6 @@ interface NotForgotAPI {
         @Header("Accept") accept: String,
         @Body taskForm: TaskForm
     ): Call<Task>
-
 
 
     @PATCH("/tasks/{id}")

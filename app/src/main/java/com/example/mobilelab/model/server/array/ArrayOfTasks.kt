@@ -1,7 +1,7 @@
 package com.example.mobilelab.model.server.array
 
-import com.example.mobilelab.model.server.form.TaskForm
+import com.example.mobilelab.model.server.task.TaskId
 
 data class ArrayOfTasks(
-    val tasks: ArrayList<TaskForm>
+    val tasks: ArrayList<TaskId>
 )
