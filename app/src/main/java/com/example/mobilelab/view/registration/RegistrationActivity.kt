@@ -12,11 +12,13 @@ class RegistrationActivity :
     AppCompatActivity(),
     RegistrationInterface {
 
-    private val registrationPresenter = RegistrationPresenter(this)
+    private lateinit var registrationPresenter: RegistrationPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
+
+        registrationPresenter = RegistrationPresenter(this, applicationContext)
 
         registrationButton.setOnClickListener {
             registrationPresenter.onRegistrationButtonClick(

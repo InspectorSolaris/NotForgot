@@ -14,13 +14,13 @@ class LoginActivity :
     AppCompatActivity(),
     LoginInterface {
 
-    private val loginPresenter = LoginPresenter(this)
+    private lateinit var loginPresenter: LoginPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val repository = Repository(this)
+        loginPresenter = LoginPresenter(this, applicationContext)
 
         loginButton.setOnClickListener {
             loginPresenter.onLoginButtonClick(

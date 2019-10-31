@@ -2,19 +2,17 @@ package com.example.mobilelab.model
 
 import android.content.Context
 import androidx.room.Room
-import com.example.mobilelab.model.data.TaskData
-import com.example.mobilelab.model.data.UserData
 import com.example.mobilelab.model.database.AppDatabase
 import com.example.mobilelab.model.server.NotForgotAPI
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.Retrofit
+import com.example.mobilelab.model.server.user.Token
+import com.example.mobilelab.model.server.user.User
+import com.example.mobilelab.model.server.user.UserLoginForm
+import com.example.mobilelab.model.server.user.UserRegistrationForm
+import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 
 class Repository(
-    context: Context
+    private val context: Context
 ) {
 
     private var retrofit: Retrofit = Retrofit.Builder()
@@ -30,53 +28,48 @@ class Repository(
     companion object {
         private const val APP_DATABASE_NAME = "appDatabase"
         private const val API_BASE_URL = "http://practice.mobile.kreosoft.ru/api/"
+        private const val ACCEPT = "application/json"
+        private const val BEARER = "Bearer"
     }
 
-//    fun getAllTaskDataFromDB(
-//        user: String,
-//        onGetTaskData: (taskData: ArrayList<TaskData>) -> Unit
-//    ) {
-//        GlobalScope.launch(Dispatchers.Main) {
-//            val taskData = withContext(Dispatchers.IO) {
-//                appDatabase.taskDataDao().getAllTaskData(user)
-//            }
-//
-//            onGetTaskData(ArrayList(taskData))
-//        }
-//    }
-//
-//    fun saveNewTaskDataFromDB(
-//        newTaskData: TaskData,
-//        onSave: () -> Unit
-//    ) {
-//        GlobalScope.launch(Dispatchers.IO) {
-//            appDatabase.taskDataDao().addTaskData(newTaskData)
-//
-//            onSave()
-//        }
-//    }
-//
-//    fun getAllUserDataFromDB(
-//        onGetUserData: (userData: ArrayList<UserData>) -> Unit
-//    ) {
-//        GlobalScope.launch(Dispatchers.Main) {
-//            val userData = withContext(Dispatchers.IO) {
-//                appDatabase.userDataDao().getAllUserData()
-//            }
-//
-//            onGetUserData(ArrayList(userData))
-//        }
-//    }
-//
-//    fun saveNewUserDataFromDB(
-//        newUserData: UserData,
-//        onSave: () -> Unit
-//    ) {
-//        GlobalScope.launch(Dispatchers.IO) {
-//            appDatabase.userDataDao().addUserData(newUserData)
-//
-//            onSave()
-//        }
-//    }
+    fun loginUser(
+        userLoginForm: UserLoginForm,
+        onFailure: (Call<Token>, Throwable) -> Unit,
+        onResponse: (Call<Token>, Response<Token>) -> Unit
+    ) {
+        val notForgotAPI = retrofit.create(NotForgotAPI::class.java)
+
+        val request = notForgotAPI.postLogin(userLoginForm)
+
+        request.enqueue(object : Callback<Token> {
+            override fun onFailure(call: Call<Token>, t: Throwable) {
+                onFailure(call, t)
+            }
+
+            override fun onResponse(call: Call<Token>, response: Response<Token>) {
+                onResponse(call, response)
+            }
+        })
+    }
+
+    fun registerUser(
+        userRegistrationForm: UserRegistrationForm,
+        onFailure: (Call<User>, Throwable) -> Unit,
+        onResponse: (Call<User>, Response<User>) -> Unit
+    ) {
+        val notForgotAPI = retrofit.create(NotForgotAPI::class.java)
+
+        val request = notForgotAPI.postRegister(userRegistrationForm)
+
+        request.enqueue(object : Callback<User> {
+            override fun onFailure(call: Call<User>, t: Throwable) {
+                onFailure(call, t)
+            }
+
+            override fun onResponse(call: Call<User>, response: Response<User>) {
+                onResponse(call, response)
+            }
+        })
+    }
 
 }

@@ -3,6 +3,7 @@
 
     <string name="shared_preferences_file">not_shared_preferences</string>
     <string name="shared_preferences_user_key">current_user</string>
+    <string name="shared_preferences_token">current_user</string>
 
     <string name="login_title">Вход</string>
     <string name="login_button_text">Войти</string>
@@ -16,7 +17,8 @@
     <string name="registration_email_hint">Email</string>
     <string name="registration_password_hint">Password</string>
     <string name="registration_repeat_password_hint">Repeat password</string>
-    <string name="registration_toast_unable_to_login">Failed to register. Try again</string>
+    <string name="registration_toast_unable_to_register">Failed to register. Try again</string>
+    <string name="registration_toast_incorrect_register_form_data">Incorrect register form data</string>
 
     <string name="tasks_list_no_task_img_description">No tasks</string>
     <string name="tasks_list_no_task_text">У вас пока нет дел.\nСчастливый вы человек!</string>

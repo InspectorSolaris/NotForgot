@@ -2,20 +2,13 @@ package com.example.mobilelab.model.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.mobilelab.model.database.dao.CategoryExtensionDao
-import com.example.mobilelab.model.database.dao.PriorityExtensionDao
-import com.example.mobilelab.model.database.dao.TaskExtensionDao
-import com.example.mobilelab.model.database.data.CategoryExtension
-import com.example.mobilelab.model.database.data.PriorityExtension
-import com.example.mobilelab.model.database.data.TaskExtension
+import com.example.mobilelab.model.data.TaskData
+import com.example.mobilelab.model.data.UserData
 
-@Database(entities = [TaskExtension::class, CategoryExtension::class, PriorityExtension::class], version = 1)
+@Database(entities = [TaskData::class, UserData::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun taskExtensionDao(): TaskExtensionDao
+    abstract fun taskDataDao(): TaskDataDao
 
-    abstract fun categoryExtensionDao(): CategoryExtensionDao
-
-    abstract fun priorityExtensionDao(): PriorityExtensionDao
-
+    abstract fun userDataDao(): UserDataDao
 }
