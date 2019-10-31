@@ -33,6 +33,10 @@ class TaskListActivity :
             taskListPresenter.onFloatingActionButtonClick()
         }
 
+        exit.setOnClickListener {
+            taskListPresenter.onExitButtonClick()
+        }
+
         taskListPresenter.initRecyclerView()
     }
 
@@ -86,6 +90,10 @@ class TaskListActivity :
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter
         }
+    }
+
+    override fun finishActivity() {
+        finish()
     }
 
 }

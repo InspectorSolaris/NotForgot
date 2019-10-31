@@ -16,64 +16,64 @@ import retrofit2.http.*
 
 interface NotForgotAPI {
 
-    @POST("/register")
+    @POST("register")
     @Headers("Accept:application/json")
     fun postRegister(
         @Body userRegistrationForm: UserRegistrationForm
     ): Call<User>
 
-    @POST("/login")
+    @POST("login")
     @Headers("Accept:application/json")
     fun postLogin(
         @Body userLoginForm: UserLoginForm
     ): Call<Token>
 
 
-    @GET("/categories")
+    @GET("categories")
+    @Headers("Accept:application/json")
     fun getCategories(
-        @Header("Accept") accept: String,
         @Header("Authorization") token: String
     ): Call<ArrayOfCategories>
 
-    @GET("/priorities")
+    @GET("priorities")
+    @Headers("Accept:application/json")
     fun getPriorities(
-        @Header("Accept") accept: String,
         @Header("Authorization") token: String
     ): Call<ArrayOfPriorities>
 
-    @GET("/tasks")
+    @GET("tasks")
+    @Headers("Accept:application/json")
     fun getTasks(
-        @Header("Accept") accept: String,
         @Header("Authorization") token: String
     ): Call<ArrayOfTasks>
 
 
-    @POST("/categories")
+    @POST("categories")
+    @Headers("Accept:application/json")
     fun postCategories(
-        @Header("Accept") accept: String,
         @Header("Authorization") token: String,
         @Body categoryForm: CategoryForm
     ): Call<Category>
 
-    @POST("/tasks")
+    @POST("tasks")
+    @Headers("Accept:application/json")
     fun postTasks(
-        @Header("Accept") accept: String,
         @Header("Authorization") token: String,
         @Body taskForm: TaskForm
     ): Call<Task>
 
 
-    @PATCH("/tasks/{id}")
+    @PATCH("tasks/{id}")
+    @Headers("Accept:application/json")
     fun patchTasks(
-        @Header("Accept") accept: String,
         @Header("Authorization") token: String,
         @Path("id") id: Int,
         @Body taskForm: TaskForm
     ): Call<Task>
 
-    @DELETE("/tasks/{id}")
+    @DELETE("tasks/{id}")
+    @Headers("Accept:application/json")
     fun deleteTasks(
-        @Header("Accept") accept: String,
         @Header("Authorization") token: String,
         @Path("id") id: Int
     )

@@ -10,4 +10,6 @@ interface TaskListInterface {
         taskDataList: ArrayList<TaskData>
     )
 
+    fun finishActivity()
+
 }

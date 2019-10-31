@@ -13,12 +13,15 @@ import retrofit2.Response
 
 class RegistrationPresenter(
     private var registrationView: RegistrationInterface?,
-    private val applicationContext: Context
+    applicationContext: Context
 ) {
 
     private val context = registrationView as Context
-    private lateinit var repository: Repository
-    private lateinit var sharedPreferencesHandler: SharedPreferencesHandler
+    private val repository = Repository(applicationContext)
+    private val sharedPreferencesHandler = SharedPreferencesHandler(
+        context,
+        context.getString(R.string.shared_preferences_file)
+    )
 
     fun onDestroy() {
         registrationView = null
@@ -35,23 +38,17 @@ class RegistrationPresenter(
                 email,
                 password,
                 password2
-            ))
-        {
+            )
+        ) {
             Toast
                 .makeText(
                     context,
-                    context.getText(R.string.registration_toast_incorrect_register_form_data),
+                    context.getText(R.string.registration_toast_on_incorrect_register_form_data),
                     Toast.LENGTH_LONG
                 ).show()
 
             return
         }
-
-        repository = Repository(applicationContext)
-        sharedPreferencesHandler = SharedPreferencesHandler(
-            context,
-            context.getString(R.string.shared_preferences_file)
-        )
 
         repository.registerUser(
             UserRegistrationForm(email, name, password),
@@ -59,7 +56,7 @@ class RegistrationPresenter(
                 Toast
                     .makeText(
                         context,
-                        R.string.registration_toast_unable_to_register,
+                        R.string.registration_toast_on_failed,
                         Toast.LENGTH_LONG
                     )
                     .show()
@@ -67,11 +64,19 @@ class RegistrationPresenter(
             { call: Call<User>, response: Response<User> ->
                 if (response.body() != null) {
                     sharedPreferencesHandler.saveString(
-                        context.getString(R.string.shared_preferences_token),
+                        context.getString(R.string.shared_preferences_user_token),
                         response.body()!!.api_token
                     )
 
                     registrationView?.onSuccessRegistration()
+                } else {
+                    Toast
+                        .makeText(
+                            context,
+                            response.message(),
+                            Toast.LENGTH_LONG
+                        )
+                        .show()
                 }
             }
         )

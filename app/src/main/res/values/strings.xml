@@ -2,14 +2,14 @@
     <string name="app_name">Not Faggot!</string>
 
     <string name="shared_preferences_file">not_shared_preferences</string>
-    <string name="shared_preferences_user_key">current_user</string>
-    <string name="shared_preferences_token">current_user</string>
+    <string name="shared_preferences_user_token">current_user_token</string>
+    <string name="shared_preferences_null_token">null</string>
 
     <string name="login_title">Вход</string>
     <string name="login_button_text">Войти</string>
     <string name="login_email_hint">Email</string>
     <string name="login_password_hint">Password</string>
-    <string name="login_toast_unable_to_login">Wrong email or password</string>
+    <string name="login_toast_on_failed">Failed to login. Check internet connection</string>
 
     <string name="registration_title">Регистрация</string>
     <string name="registration_button_text">Зарегистрироваться</string>
@@ -17,11 +17,12 @@
     <string name="registration_email_hint">Email</string>
     <string name="registration_password_hint">Password</string>
     <string name="registration_repeat_password_hint">Repeat password</string>
-    <string name="registration_toast_unable_to_register">Failed to register. Try again</string>
-    <string name="registration_toast_incorrect_register_form_data">Incorrect register form data</string>
+    <string name="registration_toast_on_failed">Failed to register. Check internet connection</string>
+    <string name="registration_toast_on_incorrect_register_form_data">Incorrect register form data</string>
 
     <string name="tasks_list_no_task_img_description">No tasks</string>
     <string name="tasks_list_no_task_text">У вас пока нет дел.\nСчастливый вы человек!</string>
+    <string name="task_list_exit_description">Exit button</string>
 
     <string name="task_null_name">NULL</string>
     <string name="task_category_name">Default category name</string>

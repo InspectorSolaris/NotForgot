@@ -22,6 +22,8 @@ class LoginActivity :
 
         loginPresenter = LoginPresenter(this, applicationContext)
 
+        loginPresenter.onCreate()
+
         loginButton.setOnClickListener {
             loginPresenter.onLoginButtonClick(
                 userEmail.text.toString(),

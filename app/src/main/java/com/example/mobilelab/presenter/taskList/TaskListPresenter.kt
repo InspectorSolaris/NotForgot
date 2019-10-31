@@ -30,6 +30,15 @@ class TaskListPresenter(
         taskListView?.onFloatingActionButtonClick()
     }
 
+    fun onExitButtonClick() {
+        sharedPreferencesHandler.saveString(
+            context.getString(R.string.shared_preferences_user_token),
+            context.getString(R.string.shared_preferences_null_token)
+        )
+
+        taskListView?.finishActivity()
+    }
+
     fun initRecyclerView() {
 //        repository.getAllTaskData(
 //            sharedPreferencesHandler.readString(
