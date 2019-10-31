@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mobilelab.R
-import com.example.mobilelab.model.data.TaskData
+import com.example.mobilelab.model.taskData.Task
 import com.example.mobilelab.presenter.taskList.TaskListPresenter
 import com.example.mobilelab.view.taskCreate.TaskCreateActivity
 import com.example.mobilelab.presenter.taskList.recyclerView.TaskListAdapter
@@ -54,7 +54,7 @@ class TaskListActivity :
     }
 
     override fun initRecyclerView(
-        taskDataList: ArrayList<TaskData>
+        taskDataList: ArrayList<Task>
     ) {
         val context = this
         val adapter = TaskListAdapter(

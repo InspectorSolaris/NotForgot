@@ -5,8 +5,8 @@ import com.example.mobilelab.model.server.array.ArrayOfPriorities
 import com.example.mobilelab.model.server.array.ArrayOfTasks
 import com.example.mobilelab.model.server.form.CategoryForm
 import com.example.mobilelab.model.server.form.TaskForm
-import com.example.mobilelab.model.server.task.Category
-import com.example.mobilelab.model.server.task.Task
+import com.example.mobilelab.model.taskData.Category
+import com.example.mobilelab.model.taskData.Task
 import com.example.mobilelab.model.server.user.Token
 import com.example.mobilelab.model.server.user.User
 import com.example.mobilelab.model.server.user.UserLoginForm

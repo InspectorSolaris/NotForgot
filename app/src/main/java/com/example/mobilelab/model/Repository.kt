@@ -7,16 +7,13 @@ import com.example.mobilelab.model.server.NotForgotAPI
 import com.example.mobilelab.model.server.array.ArrayOfCategories
 import com.example.mobilelab.model.server.array.ArrayOfPriorities
 import com.example.mobilelab.model.server.array.ArrayOfTasks
-import com.example.mobilelab.model.server.task.Category
-import com.example.mobilelab.model.server.task.Priority
-import com.example.mobilelab.model.server.task.Task
 import com.example.mobilelab.model.server.user.Token
 import com.example.mobilelab.model.server.user.User
 import com.example.mobilelab.model.server.user.UserLoginForm
 import com.example.mobilelab.model.server.user.UserRegistrationForm
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.example.mobilelab.model.taskData.Category
+import com.example.mobilelab.model.taskData.Priority
+import com.example.mobilelab.model.taskData.Task
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 

@@ -1,6 +1,7 @@
 package com.example.mobilelab.presenter.taskList.recyclerView
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -8,20 +9,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobilelab.R
-import com.example.mobilelab.model.data.TaskData
-import com.example.mobilelab.model.data.addDataToList
-import com.example.mobilelab.model.data.deleteDataToList
+import com.example.mobilelab.model.taskData.Task
 import kotlinx.android.synthetic.main.task_view_category.view.*
 import kotlinx.android.synthetic.main.task_view_task.view.*
+import kotlin.random.Random
 
 class TaskListAdapter(
     val context: Context,
-    private val taskDataList: ArrayList<TaskData>,
+    private val taskList: ArrayList<Task>,
     private val listener: Listener
 ) : RecyclerView.Adapter<TaskListAdapter.TaskListViewHolder>() {
+
+    private val random = Random(System.currentTimeMillis())
+    private val colors = arrayListOf(
+        Color.BLUE, Color.CYAN, Color.GREEN,
+        Color.MAGENTA, Color.RED, Color.YELLOW, Color.LTGRAY
+    )
 
     interface Listener {
 
@@ -50,7 +55,7 @@ class TaskListAdapter(
         var color: Drawable = task.taskColor.background
         var title: TextView = task.taskTitle
         var description: TextView = task.taskBeginning
-        var state: CheckBox = task.taskDone
+        var done: CheckBox = task.taskDone
 
     }
 
@@ -90,48 +95,53 @@ class TaskListAdapter(
     ) {
         when (holder) {
             is CategoryViewHolder -> {
-                holder.title.text = taskDataList[position].category
+                holder.title.text = taskList[position].category.name
             }
             is TaskViewHolder -> {
                 holder.apply {
-                    color = ColorDrawable(taskDataList[position].color!!.substring(1, 7).toInt())
-                    title.text = taskDataList[position].title!!
-                    description.text = taskDataList[position].description!!
-                    state.isChecked = taskDataList[position].state!!
+                    color = ColorDrawable(colors[random.nextInt(colors.size)])
+                    title.text = taskList[position].title
+                    description.text = taskList[position].description
+                    done.isChecked = taskList[position].done == 1
                 }
             }
         }
 
-        listener.onListChange(taskDataList.size)
+        listener.onListChange(taskList.size)
     }
 
-    override fun getItemCount() = taskDataList.size
+    override fun getItemCount() = taskList.size + setOf(taskList.map { task -> task.category }).size
 
     override fun getItemViewType(
         position: Int
     ): Int {
-        return when (taskDataList[position].isTask) {
-            false -> 0
-            true -> 1
+        val categoriesAmount = setOf(taskList.subList(0, position).map { task -> task.category}).size
+
+        return if (position == 0 || position > 1 && taskList[position - 1 - categoriesAmount].category != taskList[position - categoriesAmount].category) {
+            0
+        } else {
+            1
         }
     }
 
     fun deleteData(
         position: Int
     ) {
-        deleteDataToList(position, taskDataList)
-        listener.onListChange(taskDataList.size)
+        taskList.removeAt(position)
+        listener.onListChange(taskList.size)
 
-        notifyDataSetChanged()
+        notifyItemRemoved(position)
     }
 
     fun addData(
-        taskData: TaskData
+        newTask: Task
     ) {
-        addDataToList(taskData, taskDataList)
-        listener.onListChange(taskDataList.size)
+        val position = taskList.indexOfLast { task -> task.category.id == newTask.category.id } + 1
 
-        notifyDataSetChanged()
+        taskList.add(position, newTask)
+        listener.onListChange(taskList.size)
+
+        notifyItemInserted(position)
     }
 
 }
