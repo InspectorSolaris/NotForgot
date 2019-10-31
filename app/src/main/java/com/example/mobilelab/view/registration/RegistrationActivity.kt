@@ -18,7 +18,7 @@ class RegistrationActivity :
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
 
-        registrationPresenter = RegistrationPresenter(this, applicationContext)
+        registrationPresenter = RegistrationPresenter(this)
 
         registrationButton.setOnClickListener {
             registrationPresenter.onRegistrationButtonClick(

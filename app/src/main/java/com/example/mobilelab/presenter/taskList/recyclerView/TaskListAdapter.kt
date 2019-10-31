@@ -9,16 +9,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobilelab.R
 import com.example.mobilelab.model.taskData.Task
 import kotlinx.android.synthetic.main.task_view_category.view.*
 import kotlinx.android.synthetic.main.task_view_task.view.*
+import kotlin.math.max
 import kotlin.random.Random
 
 class TaskListAdapter(
     val context: Context,
-    private val taskList: ArrayList<Task>,
+    private val tasksData: ArrayList<Task>,
     private val listener: Listener
 ) : RecyclerView.Adapter<TaskListAdapter.TaskListViewHolder>() {
 
@@ -52,7 +54,7 @@ class TaskListAdapter(
         task: View
     ) : TaskListViewHolder(task) {
 
-        var color: Drawable = task.taskColor.background
+        var color: ConstraintLayout = task.taskColor
         var title: TextView = task.taskTitle
         var description: TextView = task.taskBeginning
         var done: CheckBox = task.taskDone
@@ -63,17 +65,16 @@ class TaskListAdapter(
         parent: ViewGroup,
         viewType: Int
     ): TaskListViewHolder {
-
         when (viewType) {
             0 -> {
-                return TaskViewHolder(
+                return CategoryViewHolder(
                     LayoutInflater
                         .from(parent.context)
                         .inflate(R.layout.task_view_category, parent, false)
                 )
             }
             1 -> {
-                return CategoryViewHolder(
+                return TaskViewHolder(
                     LayoutInflater
                         .from(parent.context)
                         .inflate(R.layout.task_view_task, parent, false)
@@ -93,31 +94,63 @@ class TaskListAdapter(
         holder: TaskListViewHolder,
         position: Int
     ) {
+        val taskPos = getTaskPosition(position)
+        val categoryPos = getCategoryPosition(position)
+
         when (holder) {
             is CategoryViewHolder -> {
-                holder.title.text = taskList[position].category.name
+                holder.title.text = tasksData[categoryPos].category?.name
             }
             is TaskViewHolder -> {
                 holder.apply {
-                    color = ColorDrawable(colors[random.nextInt(colors.size)])
-                    title.text = taskList[position].title
-                    description.text = taskList[position].description
-                    done.isChecked = taskList[position].done == 1
+                    color.setBackgroundColor(colors[random.nextInt(colors.size)])
+                    title.text = tasksData[taskPos].title
+                    description.text = tasksData[taskPos].description
+                    done.isChecked = tasksData[taskPos].done == 1
                 }
             }
         }
 
-        listener.onListChange(taskList.size)
+        listener.onListChange(tasksData.size)
     }
 
-    override fun getItemCount() = taskList.size + setOf(taskList.map { task -> task.category }).size
+    private fun getAmountOfCategories(
+        position: Int
+    ): Int {
+        var amountOfTasks = 0
+        var amountOfCategories = 0
+        while(amountOfCategories + amountOfTasks + 1 + HashSet(tasksData.filter { task -> task.category == tasksData[amountOfTasks].category }).size < position) {
+            amountOfTasks += HashSet(tasksData.filter { task -> task.category == tasksData[amountOfTasks].category }).size
+            ++amountOfCategories
+        }
+
+        return amountOfCategories + 1
+    }
+
+    private fun getCategoryPosition(
+        position: Int
+    ): Int {
+        return max(getTaskPosition(position), 0)
+    }
+
+    private fun getTaskPosition(
+        position: Int
+    ): Int {
+        return position - getAmountOfCategories(position)
+    }
+
+    override fun getItemCount(): Int {
+        return tasksData.size + HashSet(tasksData.map { task -> task.category }).size
+    }
 
     override fun getItemViewType(
         position: Int
     ): Int {
-        val categoriesAmount = setOf(taskList.subList(0, position).map { task -> task.category}).size
+        val prevTaskPos = getTaskPosition(position - 1)
+        val curTaskPos = getTaskPosition(position)
+        val itemIsCategory = position == 0 || position > 1 && tasksData[prevTaskPos].category != tasksData[curTaskPos].category
 
-        return if (position == 0 || position > 1 && taskList[position - 1 - categoriesAmount].category != taskList[position - categoriesAmount].category) {
+        return if (itemIsCategory) {
             0
         } else {
             1
@@ -127,21 +160,21 @@ class TaskListAdapter(
     fun deleteData(
         position: Int
     ) {
-        taskList.removeAt(position)
-        listener.onListChange(taskList.size)
+        tasksData.removeAt(getTaskPosition(position))
+        listener.onListChange(tasksData.size)
 
-        notifyItemRemoved(position)
+        notifyDataSetChanged()
     }
 
     fun addData(
         newTask: Task
     ) {
-        val position = taskList.indexOfLast { task -> task.category.id == newTask.category.id } + 1
+        val position = tasksData.indexOfLast { task -> task.category?.id == newTask.category?.id } + 1
 
-        taskList.add(position, newTask)
-        listener.onListChange(taskList.size)
+        tasksData.add(position, newTask)
+        listener.onListChange(tasksData.size)
 
-        notifyItemInserted(position)
+        notifyDataSetChanged()
     }
 
 }

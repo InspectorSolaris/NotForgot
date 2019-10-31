@@ -27,7 +27,7 @@ class TaskListActivity :
         setContentView(R.layout.activity_task_list)
         setSupportActionBar(toolbar)
 
-        taskListPresenter = TaskListPresenter(this, applicationContext)
+        taskListPresenter = TaskListPresenter(this)
 
         fab.setOnClickListener {
             taskListPresenter.onFloatingActionButtonClick()
@@ -38,7 +38,6 @@ class TaskListActivity :
         }
 
         taskListPresenter.initData()
-        taskListPresenter.initRecyclerView()
     }
 
     override fun onDestroy() {

@@ -1,8 +1,5 @@
 package com.example.mobilelab.model.server
 
-import com.example.mobilelab.model.server.array.ArrayOfCategories
-import com.example.mobilelab.model.server.array.ArrayOfPriorities
-import com.example.mobilelab.model.server.array.ArrayOfTasks
 import com.example.mobilelab.model.server.form.CategoryForm
 import com.example.mobilelab.model.server.form.TaskForm
 import com.example.mobilelab.model.taskData.Category
@@ -11,6 +8,7 @@ import com.example.mobilelab.model.server.user.Token
 import com.example.mobilelab.model.server.user.User
 import com.example.mobilelab.model.server.user.UserLoginForm
 import com.example.mobilelab.model.server.user.UserRegistrationForm
+import com.example.mobilelab.model.taskData.Priority
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -33,19 +31,19 @@ interface NotForgotAPI {
     @Headers("Accept:application/json")
     fun getCategories(
         @Header("Authorization") token: String
-    ): Call<ArrayOfCategories>
+    ): Call<List<Category>>
 
     @GET("priorities")
     @Headers("Accept:application/json")
     fun getPriorities(
         @Header("Authorization") token: String
-    ): Call<ArrayOfPriorities>
+    ): Call<List<Priority>>
 
     @GET("tasks")
     @Headers("Accept:application/json")
     fun getTasks(
         @Header("Authorization") token: String
-    ): Call<ArrayOfTasks>
+    ): Call<List<Task>>
 
 
     @POST("categories")

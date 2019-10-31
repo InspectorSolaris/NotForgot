@@ -5,22 +5,28 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.mobilelab.R
 import com.example.mobilelab.model.Repository
 import com.example.mobilelab.model.SharedPreferencesHandler
+import com.example.mobilelab.model.taskData.Category
+import com.example.mobilelab.model.taskData.Priority
+import com.example.mobilelab.model.taskData.Task
 import com.example.mobilelab.presenter.taskList.recyclerView.TaskListAdapter
 import com.example.mobilelab.view.taskList.TaskListInterface
 
 class TaskListPresenter(
-    private var taskListView: TaskListInterface?,
-    applicationContext: Context
+    private var taskListView: TaskListInterface?
 ) {
 
     private val context = taskListView as Context
-    private val repository: Repository = Repository(applicationContext)
+    private val repository = Repository()
     private val sharedPreferencesHandler = SharedPreferencesHandler(
         context,
         context.getString(R.string.shared_preferences_file)
     )
     private lateinit var taskListAdapter: TaskListAdapter
     private lateinit var itemTouchHelper: ItemTouchHelper
+
+    private lateinit var categoriesData: ArrayList<Category>
+    private lateinit var prioritiesData: ArrayList<Priority>
+    private lateinit var tasksData: ArrayList<Task>
 
     fun onDestroy() {
         taskListView = null
@@ -48,7 +54,7 @@ class TaskListPresenter(
 
             }
         ) {
-
+            categoriesData = it
         }
 
         repository.getPriorities(
@@ -59,7 +65,7 @@ class TaskListPresenter(
 
             }
         ) {
-
+            prioritiesData = it
         }
 
         repository.getTasks(
@@ -70,12 +76,13 @@ class TaskListPresenter(
 
             }
         ) {
-            it.sortBy { task -> task.category.id }
+            tasksData = it
+            tasksData.filter { task -> task.category == null }.forEach { task -> task.category = Category(-1, "NULL") }
+            tasksData.filter { task -> task.priority == null }.forEach { task -> task.priority = Priority(-1, "NULL", "#000000") }
+            tasksData.sortBy { T -> T.category?.id }
+
+            taskListView?.initRecyclerView(tasksData)
         }
-    }
-
-    fun initRecyclerView() {
-
     }
 
     fun setTaskListAdapter(

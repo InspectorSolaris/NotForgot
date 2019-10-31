@@ -5,19 +5,15 @@ import android.widget.Toast
 import com.example.mobilelab.R
 import com.example.mobilelab.model.Repository
 import com.example.mobilelab.model.SharedPreferencesHandler
-import com.example.mobilelab.model.server.user.Token
 import com.example.mobilelab.model.server.user.UserLoginForm
 import com.example.mobilelab.view.login.LoginInterface
-import retrofit2.Call
-import retrofit2.Response
 
 class LoginPresenter(
-    private var loginView: LoginInterface?,
-    applicationContext: Context
+    private var loginView: LoginInterface?
 ) {
 
     private val context = loginView as Context
-    private val repository = Repository(applicationContext)
+    private val repository = Repository()
     private val sharedPreferencesHandler = SharedPreferencesHandler(
         context,
         context.getString(R.string.shared_preferences_file)

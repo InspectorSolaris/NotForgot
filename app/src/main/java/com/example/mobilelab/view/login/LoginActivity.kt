@@ -20,7 +20,7 @@ class LoginActivity :
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        loginPresenter = LoginPresenter(this, applicationContext)
+        loginPresenter = LoginPresenter(this)
 
         loginPresenter.onCreate()
 
