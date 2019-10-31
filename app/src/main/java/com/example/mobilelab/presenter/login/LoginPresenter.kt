@@ -46,7 +46,7 @@ class LoginPresenter(
     ) {
         repository.loginUser(
             UserLoginForm(email, password),
-            { call: Call<Token>, throwable: Throwable ->
+            { _, _ ->
                 Toast
                     .makeText(
                         context,
@@ -55,7 +55,7 @@ class LoginPresenter(
                     )
                     .show()
             },
-            { call: Call<Token>, response: Response<Token> ->
+            { _, response ->
                 if(response.body() != null)
                 {
                     sharedPreferencesHandler.saveString(

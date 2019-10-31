@@ -39,14 +39,43 @@ class TaskListPresenter(
         taskListView?.finishActivity()
     }
 
+    fun initData() {
+        repository.getCategories(
+            sharedPreferencesHandler.readString(
+                context.getString(R.string.shared_preferences_user_token)
+            ),
+            { _, _ ->
+
+            }
+        ) {
+
+        }
+
+        repository.getPriorities(
+            sharedPreferencesHandler.readString(
+                context.getString(R.string.shared_preferences_user_token)
+            ),
+            { _, _ ->
+
+            }
+        ) {
+
+        }
+
+        repository.getTasks(
+            sharedPreferencesHandler.readString(
+                context.getString(R.string.shared_preferences_user_token)
+            ),
+            { _, _ ->
+
+            }
+        ) {
+            it.sortBy { task -> task.category.id }
+        }
+    }
+
     fun initRecyclerView() {
-//        repository.getAllTaskData(
-//            sharedPreferencesHandler.readString(
-//                context.getString(R.string.shared_preferences_user_key)
-//            )
-//        ) {
-//            taskListView?.initRecyclerView(it)
-//        }
+
     }
 
     fun setTaskListAdapter(

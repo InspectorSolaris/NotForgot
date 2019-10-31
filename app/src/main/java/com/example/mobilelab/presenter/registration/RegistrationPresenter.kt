@@ -52,7 +52,7 @@ class RegistrationPresenter(
 
         repository.registerUser(
             UserRegistrationForm(email, name, password),
-            { call: Call<User>, throwable: Throwable ->
+            { _, _ ->
                 Toast
                     .makeText(
                         context,
@@ -61,7 +61,7 @@ class RegistrationPresenter(
                     )
                     .show()
             },
-            { call: Call<User>, response: Response<User> ->
+            { _, response ->
                 if (response.body() != null) {
                     sharedPreferencesHandler.saveString(
                         context.getString(R.string.shared_preferences_user_token),

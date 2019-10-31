@@ -1,6 +1,8 @@
 package com.example.mobilelab.presenter.taskList.recyclerView
 
 import android.content.Context
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,7 +47,7 @@ class TaskListAdapter(
         task: View
     ) : TaskListViewHolder(task) {
 
-        var color: ConstraintLayout = task.taskColor
+        var color: Drawable = task.taskColor.background
         var title: TextView = task.taskTitle
         var description: TextView = task.taskBeginning
         var state: CheckBox = task.taskDone
@@ -92,7 +94,7 @@ class TaskListAdapter(
             }
             is TaskViewHolder -> {
                 holder.apply {
-//                    color.background = taskDataList[position].color!!
+                    color = ColorDrawable(taskDataList[position].color!!.substring(1, 7).toInt())
                     title.text = taskDataList[position].title!!
                     description.text = taskDataList[position].description!!
                     state.isChecked = taskDataList[position].state!!

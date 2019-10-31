@@ -22,4 +22,15 @@ class TaskListSwipeToDeleteSimpleCallback(
         taskListAdapter.deleteData(viewHolder.adapterPosition)
     }
 
+    override fun getMovementFlags(
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder
+    ): Int {
+        if (viewHolder is TaskListAdapter.TaskViewHolder) {
+            return super.getMovementFlags(recyclerView, viewHolder)
+        }
+
+        return 0
+    }
+
 }

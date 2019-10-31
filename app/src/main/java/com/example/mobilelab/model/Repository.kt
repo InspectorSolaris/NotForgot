@@ -4,22 +4,32 @@ import android.content.Context
 import androidx.room.Room
 import com.example.mobilelab.model.database.AppDatabase
 import com.example.mobilelab.model.server.NotForgotAPI
+import com.example.mobilelab.model.server.array.ArrayOfCategories
+import com.example.mobilelab.model.server.array.ArrayOfPriorities
+import com.example.mobilelab.model.server.array.ArrayOfTasks
+import com.example.mobilelab.model.server.task.Category
+import com.example.mobilelab.model.server.task.Priority
+import com.example.mobilelab.model.server.task.Task
 import com.example.mobilelab.model.server.user.Token
 import com.example.mobilelab.model.server.user.User
 import com.example.mobilelab.model.server.user.UserLoginForm
 import com.example.mobilelab.model.server.user.UserRegistrationForm
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 
 class Repository(
-    private val context: Context
+    context: Context
 ) {
 
-    private var retrofit: Retrofit = Retrofit.Builder()
+    private val retrofit = Retrofit.Builder()
         .baseUrl(API_BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-    private var appDatabase: AppDatabase = Room.databaseBuilder(
+    private val notForgotAPI = retrofit.create(NotForgotAPI::class.java)
+    private var appDatabase = Room.databaseBuilder(
         context,
         AppDatabase::class.java,
         APP_DATABASE_NAME
@@ -28,8 +38,70 @@ class Repository(
     companion object {
         private const val APP_DATABASE_NAME = "appDatabase"
         private const val API_BASE_URL = "http://practice.mobile.kreosoft.ru/api/"
-        private const val ACCEPT = "application/json"
         private const val BEARER = "Bearer"
+    }
+
+    fun getCategories(
+        token: String,
+        callbackOnFailure: (Call<ArrayOfCategories>, Throwable) -> Unit,
+        callbackOnResponse: (ArrayList<Category>) -> Unit
+    ) {
+        val categoryRequest = notForgotAPI.getCategories(token)
+
+        categoryRequest.enqueue(object : Callback<ArrayOfCategories> {
+            override fun onFailure(call: Call<ArrayOfCategories>, t: Throwable) {
+                callbackOnFailure(call, t)
+            }
+
+            override fun onResponse(call: Call<ArrayOfCategories>, response: Response<ArrayOfCategories>) {
+                if(response.body() != null) {
+                    callbackOnResponse(response.body()!!.categories)
+                }
+            }
+
+        })
+    }
+
+    fun getPriorities(
+        token: String,
+        callbackOnFailure: (Call<ArrayOfPriorities>, Throwable) -> Unit,
+        callbackOnResponse: (ArrayList<Priority>) -> Unit
+    ) {
+        val priorityRequest = notForgotAPI.getPriorities(token)
+
+        priorityRequest.enqueue(object : Callback<ArrayOfPriorities> {
+            override fun onFailure(call: Call<ArrayOfPriorities>, t: Throwable) {
+                callbackOnFailure(call, t)
+            }
+
+            override fun onResponse(call: Call<ArrayOfPriorities>, response: Response<ArrayOfPriorities>) {
+                if(response.body() != null) {
+                    callbackOnResponse(response.body()!!.priorities)
+                }
+            }
+
+        })
+    }
+
+    fun getTasks(
+        token: String,
+        callbackOnFailure: (Call<ArrayOfTasks>, Throwable) -> Unit,
+        callbackOnResponse: (ArrayList<Task>) -> Unit
+    ) {
+        val taskRequest = notForgotAPI.getTasks(token)
+
+        taskRequest.enqueue(object : Callback<ArrayOfTasks> {
+            override fun onFailure(call: Call<ArrayOfTasks>, t: Throwable) {
+                callbackOnFailure(call, t)
+            }
+
+            override fun onResponse(call: Call<ArrayOfTasks>, response: Response<ArrayOfTasks>) {
+                if(response.body() != null) {
+                    callbackOnResponse(response.body()!!.tasks)
+                }
+            }
+
+        })
     }
 
     fun loginUser(
@@ -37,8 +109,6 @@ class Repository(
         onFailure: (Call<Token>, Throwable) -> Unit,
         onResponse: (Call<Token>, Response<Token>) -> Unit
     ) {
-        val notForgotAPI = retrofit.create(NotForgotAPI::class.java)
-
         val request = notForgotAPI.postLogin(userLoginForm)
 
         request.enqueue(object : Callback<Token> {
@@ -49,6 +119,7 @@ class Repository(
             override fun onResponse(call: Call<Token>, response: Response<Token>) {
                 onResponse(call, response)
             }
+
         })
     }
 
@@ -57,8 +128,6 @@ class Repository(
         onFailure: (Call<User>, Throwable) -> Unit,
         onResponse: (Call<User>, Response<User>) -> Unit
     ) {
-        val notForgotAPI = retrofit.create(NotForgotAPI::class.java)
-
         val request = notForgotAPI.postRegister(userRegistrationForm)
 
         request.enqueue(object : Callback<User> {
@@ -69,6 +138,7 @@ class Repository(
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 onResponse(call, response)
             }
+
         })
     }
 

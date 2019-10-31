@@ -37,6 +37,7 @@ class TaskListActivity :
             taskListPresenter.onExitButtonClick()
         }
 
+        taskListPresenter.initData()
         taskListPresenter.initRecyclerView()
     }
 
