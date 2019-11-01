@@ -1,5 +1,6 @@
 package com.example.mobilelab.view.taskList
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -40,6 +41,13 @@ class TaskListActivity :
         taskListPresenter.initData()
     }
 
+    companion object {
+        const val REQUEST_CODE_STRING = "requestCode"
+        const val REQUEST_CODE_ADD_TASK = 1
+        const val REQUEST_CODE_EDIT_TASK = 1
+        const val RESULT_CODE_ADD_TASK = 1
+    }
+
     override fun onDestroy() {
         taskListPresenter.onDestroy()
 
@@ -49,7 +57,7 @@ class TaskListActivity :
     override fun onFloatingActionButtonClick() {
         val intent = Intent(this, TaskCreateActivity::class.java)
 
-        startActivity(intent)
+        startActivityForResult(intent, REQUEST_CODE_ADD_TASK)
     }
 
     override fun initRecyclerView(
@@ -94,6 +102,28 @@ class TaskListActivity :
 
     override fun finishActivity() {
         finish()
+    }
+
+    override fun startActivityForResult(
+        intent: Intent?,
+        requestCode: Int
+    ) {
+        intent?.putExtra(REQUEST_CODE_STRING, requestCode)
+        super.startActivityForResult(intent, requestCode)
+    }
+
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == REQUEST_CODE_ADD_TASK &&
+                resultCode == Activity.RESULT_OK) {
+
+            data?.extras
+
+        }
     }
 
 }

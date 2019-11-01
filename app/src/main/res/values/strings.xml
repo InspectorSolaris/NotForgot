@@ -40,6 +40,8 @@
     <string name="details_edit">Редактировать</string>
 
     <string name="create_screen_name_default">Screen name</string>
+    <string name="create_screen_name_create">Добавить заметку</string>
+    <string name="create_screen_name_edit">Изменить заметку</string>
     <string name="create_task_name_hint">Название</string>
     <string name="create_description">Описание</string>
     <string name="create_task_description_hint">Task description</string>
