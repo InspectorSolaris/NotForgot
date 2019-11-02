@@ -1,6 +1,8 @@
 package com.example.mobilelab.model
 
 import com.example.mobilelab.model.server.NotForgotAPI
+import com.example.mobilelab.model.server.form.CategoryForm
+import com.example.mobilelab.model.server.form.TaskForm
 import com.example.mobilelab.model.server.user.Token
 import com.example.mobilelab.model.server.user.User
 import com.example.mobilelab.model.server.user.UserLoginForm
@@ -119,6 +121,46 @@ class Repository {
             }
 
             override fun onResponse(call: Call<User>, response: Response<User>) {
+                onResponse(call, response)
+            }
+
+        })
+    }
+
+    fun postCategory(
+        token: String,
+        categoryForm: CategoryForm,
+        onFailure: (Call<Category>, Throwable) -> Unit,
+        onResponse: (Call<Category>, Response<Category>) -> Unit
+    ) {
+        val request = notForgotAPI.postCategory(BEARER + token, categoryForm)
+
+        request.enqueue(object : Callback<Category> {
+            override fun onFailure(call: Call<Category>, t: Throwable) {
+                onFailure(call, t)
+            }
+
+            override fun onResponse(call: Call<Category>, response: Response<Category>) {
+                onResponse(call, response)
+            }
+
+        })
+    }
+
+    fun postTask(
+        token: String,
+        taskForm: TaskForm,
+        onFailure: (Call<Task>, Throwable) -> Unit,
+        onResponse: (Call<Task>, Response<Task>) -> Unit
+    ) {
+        val request = notForgotAPI.postTask(BEARER + token, taskForm)
+
+        request.enqueue(object : Callback<Task> {
+            override fun onFailure(call: Call<Task>, t: Throwable) {
+                onFailure(call, t)
+            }
+
+            override fun onResponse(call: Call<Task>, response: Response<Task>) {
                 onResponse(call, response)
             }
 

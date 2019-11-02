@@ -1,6 +1,7 @@
 package com.example.mobilelab.presenter.taskList
 
 import android.content.Context
+import android.content.Intent
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.mobilelab.R
 import com.example.mobilelab.model.Repository
@@ -9,6 +10,7 @@ import com.example.mobilelab.model.taskData.Category
 import com.example.mobilelab.model.taskData.Priority
 import com.example.mobilelab.model.taskData.Task
 import com.example.mobilelab.presenter.taskList.recyclerView.TaskListAdapter
+import com.example.mobilelab.view.taskList.TaskListActivity
 import com.example.mobilelab.view.taskList.TaskListInterface
 
 class TaskListPresenter(
@@ -51,7 +53,6 @@ class TaskListPresenter(
                 context.getString(R.string.shared_preferences_user_token)
             ),
             { _, _ ->
-
             }
         ) {
             categoriesData = it
@@ -62,7 +63,6 @@ class TaskListPresenter(
                 context.getString(R.string.shared_preferences_user_token)
             ),
             { _, _ ->
-
             }
         ) {
             prioritiesData = it
@@ -73,7 +73,6 @@ class TaskListPresenter(
                 context.getString(R.string.shared_preferences_user_token)
             ),
             { _, _ ->
-
             }
         ) {
             tasksData = it
@@ -95,6 +94,15 @@ class TaskListPresenter(
         itemTouchHelper: ItemTouchHelper
     ) {
         this.itemTouchHelper = itemTouchHelper
+    }
+
+    fun onStartActivityForResult(
+        intent: Intent?,
+        requestCode: Int
+    ) {
+        intent?.putExtra(TaskListActivity.REQUEST_CODE_STRING, requestCode)
+        intent?.putExtra(TaskListActivity.TASK_CATEGORIES, categoriesData)
+        intent?.putExtra(TaskListActivity.TASK_PRIORITIES, prioritiesData)
     }
 
 }

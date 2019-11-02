@@ -42,6 +42,9 @@ class TaskListActivity :
     }
 
     companion object {
+        const val TASK_DATA = "taskData"
+        const val TASK_CATEGORIES = "taskCategories"
+        const val TASK_PRIORITIES = "taskPriorities"
         const val REQUEST_CODE_STRING = "requestCode"
         const val REQUEST_CODE_ADD_TASK = 1
         const val REQUEST_CODE_EDIT_TASK = 1
@@ -108,7 +111,8 @@ class TaskListActivity :
         intent: Intent?,
         requestCode: Int
     ) {
-        intent?.putExtra(REQUEST_CODE_STRING, requestCode)
+        taskListPresenter.onStartActivityForResult(intent, requestCode)
+
         super.startActivityForResult(intent, requestCode)
     }
 
@@ -118,12 +122,7 @@ class TaskListActivity :
         data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == REQUEST_CODE_ADD_TASK &&
-                resultCode == Activity.RESULT_OK) {
 
-            data?.extras
-
-        }
     }
 
 }

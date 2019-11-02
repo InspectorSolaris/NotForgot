@@ -48,14 +48,14 @@ interface NotForgotAPI {
 
     @POST("categories")
     @Headers("Accept:application/json")
-    fun postCategories(
+    fun postCategory(
         @Header("Authorization") token: String,
         @Body categoryForm: CategoryForm
     ): Call<Category>
 
     @POST("tasks")
     @Headers("Accept:application/json")
-    fun postTasks(
+    fun postTask(
         @Header("Authorization") token: String,
         @Body taskForm: TaskForm
     ): Call<Task>
@@ -63,7 +63,7 @@ interface NotForgotAPI {
 
     @PATCH("tasks/{id}")
     @Headers("Accept:application/json")
-    fun patchTasks(
+    fun patchTask(
         @Header("Authorization") token: String,
         @Path("id") id: Int,
         @Body taskForm: TaskForm
@@ -71,7 +71,7 @@ interface NotForgotAPI {
 
     @DELETE("tasks/{id}")
     @Headers("Accept:application/json")
-    fun deleteTasks(
+    fun deleteTask(
         @Header("Authorization") token: String,
         @Path("id") id: Int
     )

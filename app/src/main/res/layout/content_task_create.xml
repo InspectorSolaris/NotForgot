@@ -54,9 +54,10 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:ems="10"
+            android:focusable="false"
             android:hint="@string/create_task_ending_hint"
             android:importantForAutofill="no"
-            android:inputType="date"
+            android:inputType="none"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -77,6 +78,7 @@
                 android:id="@+id/taskCategory"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:spinnerMode="dropdown"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -99,6 +101,7 @@
                 android:id="@+id/taskPriority"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:spinnerMode="dropdown"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -117,62 +120,30 @@
             app:layout_constraintBottom_toTopOf="@+id/taskPriorityLayout"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/taskDescriptionLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/rounded_top_shape"
-            android:backgroundTint="@color/createInputBackground"
-            app:layout_constraintBottom_toTopOf="@+id/taskDescriptionSize"
+            android:hint="@string/create_task_description_hint"
+            app:counterEnabled="true"
+            app:counterMaxLength="120"
+            app:errorEnabled="false"
+            app:layout_constraintBottom_toTopOf="@+id/taskCategoryLayout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.573"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/taskTitle">
 
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/create_description"
-                android:textColor="@color/createDescription"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/taskDescription"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:background="#00000000"
-                android:ems="10"
-                android:gravity="clip_vertical"
-                android:hint="@string/create_task_description_hint"
-                android:importantForAutofill="no"
-                android:inputType="textPersonName"
-                android:textColor="@color/createInputText"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/description" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:id="@+id/taskDescriptionSize"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/create_task_description_size_default"
-            app:layout_constraintBottom_toTopOf="@+id/addCategory"
-            app:layout_constraintEnd_toEndOf="parent" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/taskDescriptionEditText"
+                android:layout_width="match_parent"
+                android:layout_height="219dp"
+                android:background="@drawable/rounded_top_shape"
+                android:gravity="clip_horizontal" />
+        </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
