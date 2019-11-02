@@ -8,8 +8,8 @@ data class Task(
     val title: String,
     val description: String,
     val done: Int,
-    val created: Int,
-    val deadline: Int,
+    val created: Long,
+    val deadline: Long,
     var category: Category?,
     var priority: Priority?
 ) : Parcelable {
@@ -18,8 +18,8 @@ data class Task(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readInt(),
-        parcel.readInt(),
-        parcel.readInt(),
+        parcel.readLong(),
+        parcel.readLong(),
         parcel.readParcelable(Category::class.java.classLoader),
         parcel.readParcelable(Priority::class.java.classLoader)
     )
@@ -29,8 +29,8 @@ data class Task(
         parcel.writeString(title)
         parcel.writeString(description)
         parcel.writeInt(done)
-        parcel.writeInt(created)
-        parcel.writeInt(deadline)
+        parcel.writeLong(created)
+        parcel.writeLong(deadline)
         parcel.writeParcelable(category, flags)
         parcel.writeParcelable(priority, flags)
     }

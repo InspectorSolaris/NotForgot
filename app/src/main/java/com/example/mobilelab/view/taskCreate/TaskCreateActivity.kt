@@ -7,22 +7,18 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.DialogFragment
 import com.example.mobilelab.R
 import com.example.mobilelab.presenter.taskCreate.TaskCreatePresenter
 import kotlinx.android.synthetic.main.activity_task_list.*
-import kotlinx.android.synthetic.main.add_category_view.view.*
 import kotlinx.android.synthetic.main.content_task_create.*
 import kotlinx.android.synthetic.main.content_task_create.taskCategory
 import kotlinx.android.synthetic.main.content_task_create.taskPriority
 import kotlinx.android.synthetic.main.content_task_create.taskTitle
-import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -43,7 +39,13 @@ class TaskCreateActivity :
         }
 
         save.setOnClickListener {
-            taskCreatePresenter.onSaveClick()
+            taskCreatePresenter.onSaveClick(
+                taskTitle.text.toString(),
+                taskDescriptionEditText.text.toString(),
+                taskCategory.selectedItem.toString(),
+                taskPriority.selectedItem.toString(),
+                taskDeadline.text.toString()
+            )
         }
 
         taskDeadline.setOnClickListener {
@@ -53,6 +55,21 @@ class TaskCreateActivity :
         toolbar.setNavigationOnClickListener {
             taskCreatePresenter.onNavigationClick()
         }
+
+        taskDescriptionEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+        })
 
         taskCreatePresenter.initData(intent.extras)
     }
@@ -79,43 +96,47 @@ class TaskCreateActivity :
                 onNegativeButtonClick(dialogInterface, i)
             }
             .setView(R.layout.add_category_view)
-            .create().show()
+            .create()
+            .show()
     }
 
     override fun taskDeadlineDatePickerDialog(
-        onDateSetPiced: (DatePicker?, Int, Int, Int) -> Unit
+        onDatePicked: (DatePicker?, Int, Int, Int) -> Unit
     ) {
         DatePickerDialog(
             this,
-            DatePickerDialog.OnDateSetListener { p0, p1, p2, p3 -> onDateSetPiced(p0, p1, p2, p3) },
+            DatePickerDialog.OnDateSetListener { p0, p1, p2, p3 -> onDatePicked(p0, p1, p2, p3) },
             Calendar.getInstance().get(Calendar.YEAR),
             Calendar.getInstance().get(Calendar.MONTH),
             Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         ).show()
     }
 
-    override fun initScreenName(
+    override fun setScreenName(
         name: String
     ) {
         screenName.text = name
     }
 
-    override fun initTask(
-        name: String,
-        description: String,
-        deadline: Int
+    override fun setTaskName(
+        name: String
     ) {
-        var deadlineStr = ""
-        if(deadline != -1) {
-            deadlineStr = SimpleDateFormat("dd.MM.yyyy", Locale.US).format(Date(deadline.toLong()))
-        }
-
         taskTitle.setText(name)
-        taskDescriptionEditText.setText(description)
-        taskDeadline.setText(deadlineStr)
     }
 
-    override fun initCategories(
+    override fun setTaskDescription(
+        description: String
+    ) {
+        taskDescriptionEditText.setText(description)
+    }
+
+    override fun setTaskDeadline(
+        deadline: String
+    ) {
+        taskDeadline.setText(deadline)
+    }
+
+    override fun setCategories(
         categoriesString: ArrayList<String>,
         categoryName: String
     ) {
@@ -136,7 +157,7 @@ class TaskCreateActivity :
         }
     }
 
-    override fun initPriorities(
+    override fun setPriorities(
         prioritiesString: ArrayList<String>,
         priorityName: String
     ) {

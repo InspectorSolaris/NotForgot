@@ -12,25 +12,31 @@ interface TaskCreateInterface {
     )
 
     fun taskDeadlineDatePickerDialog(
-        onDateSetPiced: (DatePicker?, Int, Int, Int) -> Unit
+        onDatePicked: (DatePicker?, Int, Int, Int) -> Unit
     )
 
-    fun initScreenName(
+    fun setScreenName(
         name: String
     )
 
-    fun initTask(
-        name: String,
-        description: String,
-        deadline: Int
+    fun setTaskName(
+        name: String
     )
 
-    fun initCategories(
+    fun setTaskDescription(
+        description: String
+    )
+
+    fun setTaskDeadline(
+        deadline: String
+    )
+
+    fun setCategories(
         categoriesString: ArrayList<String>,
         categoryName: String
     )
 
-    fun initPriorities(
+    fun setPriorities(
         prioritiesString: ArrayList<String>,
         priorityName: String
     )

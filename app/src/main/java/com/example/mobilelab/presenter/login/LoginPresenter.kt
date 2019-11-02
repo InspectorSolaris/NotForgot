@@ -13,7 +13,6 @@ class LoginPresenter(
 ) {
 
     private val context = loginView as Context
-    private val repository = Repository()
     private val sharedPreferencesHandler = SharedPreferencesHandler(
         context,
         context.getString(R.string.shared_preferences_file)
@@ -40,7 +39,7 @@ class LoginPresenter(
         email: String,
         password: String
     ) {
-        repository.loginUser(
+        Repository.loginUser(
             UserLoginForm(email, password),
             { _, _ ->
                 Toast

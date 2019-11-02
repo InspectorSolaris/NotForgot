@@ -11,6 +11,9 @@ import com.example.mobilelab.model.taskData.Priority
 import com.example.mobilelab.model.taskData.Task
 import com.example.mobilelab.view.taskCreate.TaskCreateInterface
 import com.example.mobilelab.view.taskList.TaskListActivity
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.collections.ArrayList
 
 class TaskCreatePresenter(
@@ -18,14 +21,11 @@ class TaskCreatePresenter(
 ) {
 
     private val context = taskCreateView as Context
-    private val repository = Repository()
     private val sharedPreferencesHandler = SharedPreferencesHandler(
         context,
         context.getString(R.string.shared_preferences_file)
     )
     private var requestCode: Int = 0
-    private lateinit var categoriesData: ArrayList<Category>
-    private lateinit var prioritiesData: ArrayList<Priority>
     private lateinit var taskData: Task
 
     fun onDestroy() {
@@ -38,17 +38,16 @@ class TaskCreatePresenter(
 
                 if(categoryName.isNotEmpty()) {
 
-                    repository.postCategory(
+                    Repository.postCategory(
                         sharedPreferencesHandler.readString(context.getString(R.string.shared_preferences_user_token)),
                         CategoryForm(
                             categoryName
                         ),
                         { _, _ ->
-
                         },
                         { _, response ->
                             if(response.body() != null) {
-                                categoriesData.add(response.body()!!)
+                                Repository.getCategoriesData().add(response.body()!!)
 
                                 initCategories()
                             }
@@ -63,14 +62,24 @@ class TaskCreatePresenter(
         )
     }
 
-    fun onSaveClick() {
+    fun onSaveClick(
+        name: String,
+        description: String,
+        categoryName: String,
+        priorityName: String,
+        date: String
+    ) {
 
     }
 
     fun onTaskDeadlineClick() {
-        taskCreateView?.taskDeadlineDatePickerDialog({ _, i, i2, i3 ->
+        taskCreateView?.taskDeadlineDatePickerDialog { _, i, i2, i3 ->
+            val calendar = Calendar.getInstance()
 
-        })
+            calendar.set(i, i2, i3)
+
+            taskCreateView?.setTaskDeadline(SimpleDateFormat("dd.MM.yyyy", Locale.US).format(calendar.time))
+        }
     }
 
     fun onNavigationClick() {
@@ -81,17 +90,15 @@ class TaskCreatePresenter(
         extras: Bundle?
     ) {
         requestCode = extras?.getInt(TaskListActivity.REQUEST_CODE_STRING)!!
-        categoriesData = extras.getParcelableArrayList(TaskListActivity.TASK_CATEGORIES)!!
-        prioritiesData = extras.getParcelableArrayList(TaskListActivity.TASK_PRIORITIES)!!
 
         if(requestCode == TaskListActivity.REQUEST_CODE_ADD_TASK) {
             taskData = Task(
                 -1,
                 "",
                 "",
-                0,
-                0,
-                0,
+                -1,
+                -1,
+                -1,
                 Category(
                     -1,
                     ""
@@ -103,30 +110,40 @@ class TaskCreatePresenter(
                 )
             )
 
-            taskCreateView?.initScreenName(context.getString(R.string.create_screen_name_create))
+            taskCreateView?.setScreenName(context.getString(R.string.create_screen_name_create))
         } else if(requestCode == TaskListActivity.REQUEST_CODE_EDIT_TASK) {
 
             taskData = extras.getParcelable(TaskListActivity.TASK_DATA)!!
-            taskCreateView?.initScreenName(context.getString(R.string.create_screen_name_edit))
+            taskCreateView?.setScreenName(context.getString(R.string.create_screen_name_edit))
 
         }
 
-        taskCreateView?.initTask(
-            taskData.title,
-            taskData.description,
-            taskData.deadline
-        )
+        taskCreateView?.setTaskName(taskData.title)
+        taskCreateView?.setTaskDescription(taskData.description)
+        taskCreateView?.setTaskDeadline(getDateAsString(taskData.deadline))
 
         initCategories()
         initPriorities()
     }
 
     private fun initCategories() {
-        taskCreateView?.initCategories(ArrayList(categoriesData.map { it.name }), taskData.category!!.name)
+        taskCreateView?.setCategories(ArrayList(Repository.getCategoriesData().map { it.name }), taskData.category!!.name)
     }
 
     private fun initPriorities() {
-        taskCreateView?.initPriorities(ArrayList(prioritiesData.map { it.name }), taskData.priority!!.name)
+        taskCreateView?.setPriorities(ArrayList(Repository.getPrioritiesData().map { it.name }), taskData.priority!!.name)
+    }
+
+    private fun getDateAsString(
+        time: Long
+    ): String {
+        var date = ""
+
+        if(time != -1L) {
+            date = SimpleDateFormat("dd.MM.yyyy", Locale.US).format(time)
+        }
+
+        return date
     }
 
 }

@@ -5,18 +5,14 @@ import android.widget.Toast
 import com.example.mobilelab.R
 import com.example.mobilelab.model.Repository
 import com.example.mobilelab.model.SharedPreferencesHandler
-import com.example.mobilelab.model.server.user.User
 import com.example.mobilelab.model.server.user.UserRegistrationForm
 import com.example.mobilelab.view.registration.RegistrationInterface
-import retrofit2.Call
-import retrofit2.Response
 
 class RegistrationPresenter(
     private var registrationView: RegistrationInterface?
 ) {
 
     private val context = registrationView as Context
-    private val repository = Repository()
     private val sharedPreferencesHandler = SharedPreferencesHandler(
         context,
         context.getString(R.string.shared_preferences_file)
@@ -49,7 +45,7 @@ class RegistrationPresenter(
             return
         }
 
-        repository.registerUser(
+        Repository.registerUser(
             UserRegistrationForm(email, name, password),
             { _, _ ->
                 Toast

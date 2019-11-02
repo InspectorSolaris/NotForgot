@@ -18,17 +18,12 @@ class TaskListPresenter(
 ) {
 
     private val context = taskListView as Context
-    private val repository = Repository()
     private val sharedPreferencesHandler = SharedPreferencesHandler(
         context,
         context.getString(R.string.shared_preferences_file)
     )
     private lateinit var taskListAdapter: TaskListAdapter
     private lateinit var itemTouchHelper: ItemTouchHelper
-
-    private lateinit var categoriesData: ArrayList<Category>
-    private lateinit var prioritiesData: ArrayList<Priority>
-    private lateinit var tasksData: ArrayList<Task>
 
     fun onDestroy() {
         taskListView = null
@@ -48,39 +43,36 @@ class TaskListPresenter(
     }
 
     fun initData() {
-        repository.getCategories(
+        Repository.getCategories(
             sharedPreferencesHandler.readString(
                 context.getString(R.string.shared_preferences_user_token)
             ),
             { _, _ ->
             }
         ) {
-            categoriesData = it
         }
 
-        repository.getPriorities(
+        Repository.getPriorities(
             sharedPreferencesHandler.readString(
                 context.getString(R.string.shared_preferences_user_token)
             ),
             { _, _ ->
             }
         ) {
-            prioritiesData = it
         }
 
-        repository.getTasks(
+        Repository.getTasks(
             sharedPreferencesHandler.readString(
                 context.getString(R.string.shared_preferences_user_token)
             ),
             { _, _ ->
             }
         ) {
-            tasksData = it
-            tasksData.filter { task -> task.category == null }.forEach { task -> task.category = Category(-1, "NULL") }
-            tasksData.filter { task -> task.priority == null }.forEach { task -> task.priority = Priority(-1, "NULL", "#000000") }
-            tasksData.sortBy { T -> T.category?.id }
+            Repository.getTasksData().filter { task -> task.category == null }.forEach { task -> task.category = Category(-1, "NULL") }
+            Repository.getTasksData().filter { task -> task.priority == null }.forEach { task -> task.priority = Priority(-1, "NULL", "#000000") }
+            Repository.getTasksData().sortBy { T -> T.category?.id }
 
-            taskListView?.initRecyclerView(tasksData)
+            taskListView?.initRecyclerView(Repository.getTasksData())
         }
     }
 
@@ -101,8 +93,6 @@ class TaskListPresenter(
         requestCode: Int
     ) {
         intent?.putExtra(TaskListActivity.REQUEST_CODE_STRING, requestCode)
-        intent?.putExtra(TaskListActivity.TASK_CATEGORIES, categoriesData)
-        intent?.putExtra(TaskListActivity.TASK_PRIORITIES, prioritiesData)
     }
 
 }

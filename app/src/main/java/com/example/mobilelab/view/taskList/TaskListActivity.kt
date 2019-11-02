@@ -1,6 +1,5 @@
 package com.example.mobilelab.view.taskList
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -43,8 +42,6 @@ class TaskListActivity :
 
     companion object {
         const val TASK_DATA = "taskData"
-        const val TASK_CATEGORIES = "taskCategories"
-        const val TASK_PRIORITIES = "taskPriorities"
         const val REQUEST_CODE_STRING = "requestCode"
         const val REQUEST_CODE_ADD_TASK = 1
         const val REQUEST_CODE_EDIT_TASK = 1
