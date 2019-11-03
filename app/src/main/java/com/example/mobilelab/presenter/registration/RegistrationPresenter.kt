@@ -1,12 +1,14 @@
 package com.example.mobilelab.presenter.registration
 
 import android.content.Context
+import android.content.Intent
 import android.widget.Toast
 import com.example.mobilelab.R
 import com.example.mobilelab.model.Repository
 import com.example.mobilelab.model.SharedPreferencesHandler
 import com.example.mobilelab.model.server.user.UserRegistrationForm
 import com.example.mobilelab.view.registration.RegistrationInterface
+import com.example.mobilelab.view.taskList.TaskListActivity
 
 class RegistrationPresenter(
     private var registrationView: RegistrationInterface?
@@ -63,7 +65,9 @@ class RegistrationPresenter(
                     response.body()!!.api_token
                 )
 
-                registrationView?.onSuccessRegistration()
+                registrationView?.startActivity(
+                    Intent(context, TaskListActivity::class.java)
+                )
             } else {
                 Toast
                     .makeText(
@@ -77,7 +81,7 @@ class RegistrationPresenter(
     }
 
     fun onLoginButtonClick() {
-        registrationView?.onLoginButtonClick()
+        registrationView?.finish()
     }
 
     private fun registerFormDataIsCorrect(
@@ -86,7 +90,10 @@ class RegistrationPresenter(
         password: String,
         password2: String
     ): Boolean {
-        return password.isNotEmpty() && password == password2 && name.isNotEmpty() && email.isNotEmpty()
+        return password.isNotEmpty() &&
+                password == password2 &&
+                name.isNotEmpty() &&
+                email.isNotEmpty()
     }
 
 }

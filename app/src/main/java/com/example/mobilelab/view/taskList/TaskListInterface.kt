@@ -1,11 +1,16 @@
 package com.example.mobilelab.view.taskList
 
-interface TaskListInterface {
+import android.content.Intent
 
-    fun onFloatingActionButtonClick()
+interface TaskListInterface {
 
     fun initRecyclerView()
 
-    fun finishActivity()
+    fun startActivityForResult(
+        intent: Intent?,
+        requestCode: Int
+    )
+
+    fun finish()
 
 }

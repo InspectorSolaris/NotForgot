@@ -1,12 +1,15 @@
 package com.example.mobilelab.presenter.login
 
 import android.content.Context
+import android.content.Intent
 import android.widget.Toast
 import com.example.mobilelab.R
 import com.example.mobilelab.model.Repository
 import com.example.mobilelab.model.SharedPreferencesHandler
 import com.example.mobilelab.model.server.user.UserLoginForm
 import com.example.mobilelab.view.login.LoginInterface
+import com.example.mobilelab.view.registration.RegistrationActivity
+import com.example.mobilelab.view.taskList.TaskListActivity
 
 class LoginPresenter(
     private var loginView: LoginInterface?
@@ -27,7 +30,9 @@ class LoginPresenter(
         )
 
         if(token != nullToken) {
-            loginView?.onSuccessLogin()
+            loginView?.startActivity(
+                Intent(context, TaskListActivity::class.java)
+            )
         }
     }
 
@@ -57,7 +62,9 @@ class LoginPresenter(
                     response.body()!!.api_token
                 )
 
-                loginView?.onSuccessLogin()
+                loginView?.startActivity(
+                    Intent(context, TaskListActivity::class.java)
+                )
             } else {
                 Toast
                     .makeText(
@@ -71,7 +78,9 @@ class LoginPresenter(
     }
 
     fun onRegistrationButtonClick() {
-        loginView?.onRegistrationButtonClick()
+        loginView?.startActivity(
+            Intent(context, RegistrationActivity::class.java)
+        )
     }
 
 }

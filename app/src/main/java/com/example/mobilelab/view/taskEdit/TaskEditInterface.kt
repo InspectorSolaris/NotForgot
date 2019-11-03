@@ -59,7 +59,7 @@ interface TaskEditInterface {
         errorText: String
     )
 
-    fun finishActivity(
+    fun finishActivityWithResult(
         resultCode: Int,
         intent: Intent?
     )

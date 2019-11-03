@@ -21,6 +21,8 @@ import kotlin.random.Random
 class TaskListAdapter(
     val context: Context,
     private val listener: Listener,
+    private val onItemClickListener: View.OnClickListener,
+    private val onDoneClickListener: View.OnClickListener,
     private val tasksData: ArrayList<Task> = Repository.getTasksData()
 ) : RecyclerView.Adapter<TaskListAdapter.TaskListViewHolder>() {
 
@@ -33,6 +35,37 @@ class TaskListAdapter(
         Color.BLUE, Color.CYAN, Color.GREEN,
         Color.MAGENTA, Color.RED, Color.YELLOW, Color.LTGRAY
     )
+
+    companion object {
+
+        private fun getAmountOfCategories(
+            position: Int
+        ): Int {
+            val tasksData = Repository.getTasksData()
+
+            var amountOfTasks = 0
+            var amountOfCategories = 0
+            while(amountOfCategories + amountOfTasks + 1 + HashSet(tasksData.filter { it.category == tasksData[amountOfTasks].category }).size < position) {
+                amountOfTasks += HashSet(tasksData.filter { it.category == tasksData[amountOfTasks].category }).size
+                ++amountOfCategories
+            }
+
+            return amountOfCategories + 1
+        }
+
+        fun getCategoryPosition(
+            position: Int
+        ): Int {
+            return max(getTaskPosition(position), 0)
+        }
+
+        fun getTaskPosition(
+            position: Int
+        ): Int {
+            return position - getAmountOfCategories(position)
+        }
+
+    }
 
     interface Listener {
 
@@ -55,13 +88,23 @@ class TaskListAdapter(
     }
 
     class TaskViewHolder(
-        task: View
+        task: View,
+        onItemClickListener: View.OnClickListener,
+        onDoneClickListener: View.OnClickListener
     ) : TaskListViewHolder(task) {
 
         var color: ConstraintLayout = task.taskColor
         var title: TextView = task.taskTitle
         var description: TextView = task.taskCreated
         var done: CheckBox = task.taskDone
+
+        init {
+            task.tag = this
+            task.setOnClickListener(onItemClickListener)
+
+            done.tag = this
+            done.setOnClickListener(onDoneClickListener)
+        }
 
     }
 
@@ -81,7 +124,9 @@ class TaskListAdapter(
                 return TaskViewHolder(
                     LayoutInflater
                         .from(parent.context)
-                        .inflate(R.layout.task_view_task, parent, false)
+                        .inflate(R.layout.task_view_task, parent, false),
+                    onItemClickListener,
+                    onDoneClickListener
                 )
             }
             else -> {
@@ -116,31 +161,6 @@ class TaskListAdapter(
         }
 
         listener.onListChange(tasksData.size)
-    }
-
-    private fun getAmountOfCategories(
-        position: Int
-    ): Int {
-        var amountOfTasks = 0
-        var amountOfCategories = 0
-        while(amountOfCategories + amountOfTasks + 1 + HashSet(tasksData.filter { task -> task.category == tasksData[amountOfTasks].category }).size < position) {
-            amountOfTasks += HashSet(tasksData.filter { task -> task.category == tasksData[amountOfTasks].category }).size
-            ++amountOfCategories
-        }
-
-        return amountOfCategories + 1
-    }
-
-    private fun getCategoryPosition(
-        position: Int
-    ): Int {
-        return max(getTaskPosition(position), 0)
-    }
-
-    private fun getTaskPosition(
-        position: Int
-    ): Int {
-        return position - getAmountOfCategories(position)
     }
 
     override fun getItemCount(): Int {

@@ -1,9 +1,13 @@
 package com.example.mobilelab.view.registration
 
+import android.content.Intent
+
 interface RegistrationInterface {
 
-    fun onSuccessRegistration()
+    fun startActivity(
+        intent: Intent?
+    )
 
-    fun onLoginButtonClick()
+    fun finish()
 
 }

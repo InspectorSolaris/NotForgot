@@ -5,8 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mobilelab.R
 import com.example.mobilelab.presenter.login.LoginPresenter
-import com.example.mobilelab.view.registration.RegistrationActivity
-import com.example.mobilelab.view.taskList.TaskListActivity
 import kotlinx.android.synthetic.main.content_login.*
 
 class LoginActivity :
@@ -41,16 +39,10 @@ class LoginActivity :
         super.onDestroy()
     }
 
-    override fun onSuccessLogin() {
-        val intent = Intent(this, TaskListActivity::class.java)
-
-        startActivity(intent)
-    }
-
-    override fun onRegistrationButtonClick() {
-        val intent = Intent(this, RegistrationActivity::class.java)
-
-        startActivity(intent)
+    override fun startActivity(
+        intent: Intent?
+    ) {
+        super.startActivity(intent)
     }
 
 }

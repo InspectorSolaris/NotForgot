@@ -4,7 +4,7 @@ import android.content.Intent
 
 interface TaskDetailsInterface {
 
-    fun onEditButtonClick()
+    fun onNavigationClick()
 
     fun setTaskTitle(
         title: String
@@ -36,7 +36,12 @@ interface TaskDetailsInterface {
         color: Int
     )
 
-    fun finishActivity(
+    fun startActivityForResult(
+        intent: Intent?,
+        requestCode: Int
+    )
+
+    fun finishActivityWithResult(
         resultCode: Int,
         intent: Intent?
     )

@@ -3,6 +3,7 @@ package com.example.mobilelab.view.taskList
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -52,18 +53,11 @@ class TaskListActivity :
         super.onDestroy()
     }
 
-    override fun onFloatingActionButtonClick() {
-        val intent = Intent(this, TaskEditActivity::class.java)
-
-        startActivityForResult(intent, REQUEST_CODE_ADD_TASK)
-    }
-
     override fun initRecyclerView() {
         val context = this
         val adapter = TaskListAdapter(
             this,
             object : TaskListAdapter.Listener {
-
                 override fun onListChange(size: Int) {
                     if (size == 0) {
                         noTasks.visibility = View.VISIBLE
@@ -72,8 +66,25 @@ class TaskListActivity :
                     }
                 }
 
+            },
+            View.OnClickListener {
+                val taskViewHolder = (it.tag as TaskListAdapter.TaskViewHolder)
+
+                taskListPresenter.onItemClick(taskViewHolder.adapterPosition)
+            },
+            View.OnClickListener {
+                val taskViewHolder = (it.tag as TaskListAdapter.TaskViewHolder)
+
+                taskListPresenter.onDoneClick(taskViewHolder.adapterPosition) { state ->
+                    (it as CheckBox).isChecked = when(state) {
+                        0 -> false
+                        1 -> true
+                        else -> true
+                    }
+                }
             }
         )
+
         ItemTouchHelper(
             TaskListSwipeToDeleteSimpleCallback(
                 adapter
@@ -91,17 +102,15 @@ class TaskListActivity :
         }
     }
 
-    override fun finishActivity() {
-        finish()
-    }
-
     override fun startActivityForResult(
         intent: Intent?,
         requestCode: Int
     ) {
-        taskListPresenter.startActivityForResult(intent, requestCode)
-
         super.startActivityForResult(intent, requestCode)
+    }
+
+    override fun finish() {
+        super.finish()
     }
 
     override fun onActivityResult(

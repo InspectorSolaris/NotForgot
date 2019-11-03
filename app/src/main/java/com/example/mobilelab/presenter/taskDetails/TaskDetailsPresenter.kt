@@ -2,12 +2,14 @@ package com.example.mobilelab.presenter.taskDetails
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import com.example.mobilelab.R
 import com.example.mobilelab.model.Repository
 import com.example.mobilelab.model.taskData.Category
 import com.example.mobilelab.model.taskData.Priority
 import com.example.mobilelab.view.taskDetails.TaskDetailsInterface
+import com.example.mobilelab.view.taskEdit.TaskEditActivity
 import com.example.mobilelab.view.taskList.TaskListActivity
 import java.text.SimpleDateFormat
 import java.util.*
@@ -23,38 +25,41 @@ class TaskDetailsPresenter(
         taskDetailsView = null
     }
 
+    fun onNavigationClick() {
+        taskDetailsView?.onNavigationClick()
+    }
+
     fun onEditClick() {
-        taskDetailsView?.onEditButtonClick()
+        taskDetailsView?.startActivityForResult(
+            Intent(context, TaskEditActivity::class.java).also {
+                it.putExtra(TaskListActivity.TASK_ID, taskId)
+                it.putExtra(
+                    TaskListActivity.REQUEST_CODE_STRING,
+                    TaskListActivity.REQUEST_CODE_EDIT_TASK
+                )
+            },
+            TaskListActivity.REQUEST_CODE_EDIT_TASK
+        )
     }
 
     fun initDate(
         extras: Bundle?
     ) {
-        val taskId = extras?.getInt(TaskListActivity.TASK_ID, -1)
+        taskId = extras?.getInt(TaskListActivity.TASK_ID, -1) ?: -1
 
         if (taskId == -1) {
             return
         }
 
-        val task = Repository.getTasksData().find { it.id == taskId }
+        val task = Repository.getTasksData()[taskId]
 
-        if (task != null) {
-            taskDetailsView?.setTaskTitle(task.title)
-            taskDetailsView?.setTaskDescription(task.description)
-            taskDetailsView?.setTaskState(getDoneAsString(task.done), getDoneAsColor(task.done))
-            taskDetailsView?.setTaskCreated(getDateAsString(task.created))
-            taskDetailsView?.setTaskDeadline(getDateAsString(task.deadline))
-            taskDetailsView?.setTaskCategory(getCategoryAsString(task.category))
-            taskDetailsView?.setTaskPriority(getPriorityAsString(task.priority), getPriorityAsColor(task.priority))
-        }
-    }
-
-    fun startActivityForResult(
-        intent: Intent?,
-        requestCode: Int
-    ) {
-        intent?.putExtra(TaskListActivity.TASK_ID, taskId)
-        intent?.putExtra(TaskListActivity.REQUEST_CODE_STRING, requestCode)
+        taskDetailsView?.setTaskTitle(task.title)
+        taskDetailsView?.setTaskDescription(task.description)
+        taskDetailsView?.setTaskState(getDoneAsString(task.done), getDoneAsColor(task.done))
+        taskDetailsView?.setTaskCreated(getDateAsString(task.created))
+        taskDetailsView?.setTaskDeadline(getDateAsString(task.deadline))
+        taskDetailsView?.setTaskCategory(getCategoryAsString(task.category))
+        taskDetailsView?.setTaskPriority(getPriorityAsString(task.priority), getPriorityAsColor(task.priority))
     }
 
     fun onActivityResult(
@@ -62,7 +67,7 @@ class TaskDetailsPresenter(
         resultCode: Int,
         data: Intent?
     ) {
-        taskDetailsView?.finishActivity(
+        taskDetailsView?.finishActivityWithResult(
             resultCode,
             data
         )
@@ -94,7 +99,7 @@ class TaskDetailsPresenter(
         var dateStr = ""
 
         if(date != -1L) {
-            dateStr = SimpleDateFormat("dd.MM.yyyy", Locale.US).format(date)
+            dateStr = SimpleDateFormat(context.getString(R.string.date_pattern), Locale.US).format(date)
         }
 
         return dateStr
@@ -124,7 +129,7 @@ class TaskDetailsPresenter(
         priority: Priority?
     ): Int {
         if(priority != null) {
-            return priority.color.substring(1, 7).toInt()
+            return Color.parseColor(priority.color)
         }
 
         return 0

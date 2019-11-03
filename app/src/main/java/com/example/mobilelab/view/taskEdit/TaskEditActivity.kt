@@ -33,8 +33,8 @@ class TaskEditActivity :
 
         taskEditPresenter = TaskEditPresenter(this)
 
-        addCategory.setOnClickListener {
-            taskEditPresenter.onAddCategoryClick()
+        toolbar.setNavigationOnClickListener {
+            taskEditPresenter.onNavigationClick()
         }
 
         save.setOnClickListener {
@@ -47,12 +47,12 @@ class TaskEditActivity :
             )
         }
 
-        taskDeadlineEditText.setOnClickListener {
-            taskEditPresenter.onTaskDeadlineClick()
+        addCategory.setOnClickListener {
+            taskEditPresenter.onAddCategoryClick()
         }
 
-        toolbar.setNavigationOnClickListener {
-            taskEditPresenter.onNavigationClick()
+        taskDeadlineEditText.setOnClickListener {
+            taskEditPresenter.onTaskDeadlineClick()
         }
 
         taskTitleEditText.addTextChangedListener(object : TextWatcher {
@@ -223,7 +223,7 @@ class TaskEditActivity :
         taskDeadlineEditText.error = errorText
     }
 
-    override fun finishActivity(
+    override fun finishActivityWithResult(
         resultCode: Int,
         intent: Intent?
     ) {

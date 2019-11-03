@@ -6,9 +6,12 @@ import android.content.Intent
 import com.example.mobilelab.R
 import com.example.mobilelab.model.Repository
 import com.example.mobilelab.model.SharedPreferencesHandler
+import com.example.mobilelab.model.server.form.TaskForm
 import com.example.mobilelab.model.taskData.Category
 import com.example.mobilelab.model.taskData.Priority
 import com.example.mobilelab.presenter.taskList.recyclerView.TaskListAdapter
+import com.example.mobilelab.view.taskDetails.TaskDetailsActivity
+import com.example.mobilelab.view.taskEdit.TaskEditActivity
 import com.example.mobilelab.view.taskList.TaskListActivity
 import com.example.mobilelab.view.taskList.TaskListInterface
 
@@ -28,7 +31,15 @@ class TaskListPresenter(
     }
 
     fun onFloatingActionButtonClick() {
-        taskListView?.onFloatingActionButtonClick()
+        taskListView?.startActivityForResult(
+            Intent(context, TaskEditActivity::class.java).also {
+                it.putExtra(
+                    TaskListActivity.REQUEST_CODE_STRING,
+                    TaskListActivity.REQUEST_CODE_ADD_TASK
+                )
+            },
+            TaskListActivity.REQUEST_CODE_ADD_TASK
+        )
     }
 
     fun onExitButtonClick() {
@@ -37,7 +48,7 @@ class TaskListPresenter(
             context.getString(R.string.shared_preferences_null_token)
         )
 
-        taskListView?.finishActivity()
+        taskListView?.finish()
     }
 
     fun initData() {
@@ -72,17 +83,57 @@ class TaskListPresenter(
         }
     }
 
+    fun onItemClick(
+        position: Int
+    ) {
+        val taskPosition = TaskListAdapter.getTaskPosition(position)
+
+        taskListView?.startActivityForResult(
+            Intent(context, TaskDetailsActivity::class.java).also {
+                it.putExtra(TaskListActivity.TASK_ID, taskPosition)
+            },
+            TaskListActivity.REQUEST_CODE_EDIT_TASK
+        )
+    }
+
+    fun onDoneClick(
+        position: Int,
+        setIsCheck: (Int) -> Unit
+    ) {
+        val taskPosition = TaskListAdapter.getTaskPosition(position)
+        val taskData = Repository.getTasksData()[taskPosition]
+        val token = sharedPreferencesHandler.readString(context.getString(R.string.shared_preferences_user_token))
+
+        val done = when(taskData.done) {
+            0 -> 1
+            1 -> 0
+            else -> -1
+        }
+
+        Repository.patchTask(
+            token,
+            taskData.id,
+            TaskForm(
+                taskData.title,
+                taskData.description,
+                done,
+                taskData.deadline,
+                taskData.category!!.id,
+                taskData.priority!!.id
+            ),
+            { _, _ ->
+                setIsCheck(taskData.done)
+            }
+        ) { _, _ ->
+            setIsCheck(taskData.done)
+        }
+
+    }
+
     fun setTaskListAdapter(
         taskListAdapter: TaskListAdapter
     ) {
         this.taskListAdapter = taskListAdapter
-    }
-
-    fun startActivityForResult(
-        intent: Intent?,
-        requestCode: Int
-    ) {
-        intent?.putExtra(TaskListActivity.REQUEST_CODE_STRING, requestCode)
     }
 
     fun onActivityResult(

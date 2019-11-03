@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Not Faggot!</string>
+    <string name="date_pattern">dd.MM.yyyy</string>
 
     <string name="shared_preferences_file">not_shared_preferences</string>
     <string name="shared_preferences_user_token">current_user_token</string>
@@ -47,7 +48,6 @@
     <string name="edit_task_title_hint">Название</string>
     <string name="edit_task_description_hint">Описание</string>
     <string name="edit_task_deadline_hint">Сделать до</string>
-    <string name="edit_task_date_pattern">dd.MM.yyyy</string>
     <string name="edit_task_title_is_empty">Это поле не может быть пустым</string>
     <string name="edit_task_description_is_empty">Это поле не может быть пустым</string>
     <string name="edit_task_description_too_long">Это поле не может быть настолько большим</string>

@@ -1,6 +1,5 @@
 package com.example.mobilelab.view.taskDetails
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +7,7 @@ import com.example.mobilelab.R
 import com.example.mobilelab.presenter.taskDetails.TaskDetailsPresenter
 import com.example.mobilelab.view.taskEdit.TaskEditActivity
 import com.example.mobilelab.view.taskList.TaskListActivity
+import kotlinx.android.synthetic.main.activity_task_list.*
 import kotlinx.android.synthetic.main.content_task_details.*
 
 class TaskDetailsActivity
@@ -22,6 +22,10 @@ class TaskDetailsActivity
 
         taskDetailsPresenter = TaskDetailsPresenter(this)
 
+        toolbar.setNavigationOnClickListener {
+            taskDetailsPresenter.onNavigationClick()
+        }
+
         edit.setOnClickListener {
             taskDetailsPresenter.onEditClick()
         }
@@ -35,10 +39,8 @@ class TaskDetailsActivity
         super.onDestroy()
     }
 
-    override fun onEditButtonClick() {
-        val intent = Intent(this, TaskEditActivity::class.java)
-
-        startActivityForResult(intent, TaskListActivity.REQUEST_CODE_EDIT_TASK)
+    override fun onNavigationClick() {
+        finish()
     }
 
     override fun setTaskTitle(
@@ -87,15 +89,6 @@ class TaskDetailsActivity
         taskPriority.setBackgroundColor(color)
     }
 
-    override fun startActivityForResult(
-        intent: Intent?,
-        requestCode: Int
-    ) {
-        taskDetailsPresenter.startActivityForResult(intent, requestCode)
-
-        super.startActivityForResult(intent, requestCode)
-    }
-
     override fun onActivityResult(
         requestCode: Int,
         resultCode: Int,
@@ -110,7 +103,14 @@ class TaskDetailsActivity
         )
     }
 
-    override fun finishActivity(
+    override fun startActivityForResult(
+        intent: Intent?,
+        requestCode: Int
+    ) {
+        super.startActivityForResult(intent, requestCode)
+    }
+
+    override fun finishActivityWithResult(
         resultCode: Int,
         intent: Intent?
     ) {
