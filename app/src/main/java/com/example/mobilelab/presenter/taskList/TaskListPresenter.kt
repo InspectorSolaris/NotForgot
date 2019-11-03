@@ -14,9 +14,7 @@ import com.example.mobilelab.view.taskDetails.TaskDetailsActivity
 import com.example.mobilelab.view.taskEdit.TaskEditActivity
 import com.example.mobilelab.view.taskList.TaskListActivity
 import com.example.mobilelab.view.taskList.TaskListInterface
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import java.util.*
 
 class TaskListPresenter(
     private var taskListView: TaskListInterface?,
@@ -62,8 +60,6 @@ class TaskListPresenter(
             context.getString(R.string.shared_preferences_null_token)
         )
 
-        Repository.clearTasksFromAppDatabase()
-
         taskListView?.finish()
     }
 
@@ -78,6 +74,9 @@ class TaskListPresenter(
 
         Repository.getTasks(token) {
             taskListView?.initRecyclerView()
+            taskListView?.runLottieAnimation(
+                5500
+            )
         }
     }
 

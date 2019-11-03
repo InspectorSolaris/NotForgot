@@ -25,9 +25,7 @@ object Repository {
     private const val TOKEN_PREFIX = "Bearer "
     const val APP_DATABASE_NAME = "AppDatabase"
 
-    private var categoriesLoaded = false
-    private var prioritiesLoaded = false
-    private var tasksLoaded = false
+    private var internetConnected = true
     private var categoriesData: ArrayList<Category> = arrayListOf()
     private var prioritiesData: ArrayList<Priority> = arrayListOf()
     private var tasksData: ArrayList<Task> = arrayListOf()
@@ -100,11 +98,16 @@ object Repository {
         val categoryRequest = notForgotAPI.getCategories(TOKEN_PREFIX + token)
 
         categoryRequest.enqueue(object : Callback<List<Category>> {
-            override fun onFailure(call: Call<List<Category>>, t: Throwable) {}
+            override fun onFailure(call: Call<List<Category>>, t: Throwable) {
+                internetConnected = false
+
+                GlobalScope.launch(Dispatchers.IO) {
+                    categoriesData = ArrayList(appDatabase.categoryDao().getCategories())
+                }
+            }
 
             override fun onResponse(call: Call<List<Category>>, response: Response<List<Category>>) {
                 if(response.body() != null) {
-                    categoriesLoaded = true
                     categoriesData = ArrayList(response.body()!!)
                     categoriesData.sortBy { it.id }
                 }
@@ -118,11 +121,16 @@ object Repository {
         val priorityRequest = notForgotAPI.getPriorities(TOKEN_PREFIX + token)
 
         priorityRequest.enqueue(object : Callback<List<Priority>> {
-            override fun onFailure(call: Call<List<Priority>>, t: Throwable) {}
+            override fun onFailure(call: Call<List<Priority>>, t: Throwable) {
+                internetConnected = false
+
+                GlobalScope.launch(Dispatchers.IO) {
+                    prioritiesData = ArrayList(appDatabase.priorityDao().getPriorities())
+                }
+            }
 
             override fun onResponse(call: Call<List<Priority>>, response: Response<List<Priority>>) {
                 if(response.body() != null) {
-                    prioritiesLoaded = true
                     prioritiesData = ArrayList(response.body()!!)
                     prioritiesData.sortBy { it.id }
                 }
@@ -137,11 +145,16 @@ object Repository {
         val taskRequest = notForgotAPI.getTasks(TOKEN_PREFIX + token)
 
         taskRequest.enqueue(object : Callback<List<Task>> {
-            override fun onFailure(call: Call<List<Task>>, t: Throwable) {}
+            override fun onFailure(call: Call<List<Task>>, t: Throwable) {
+                internetConnected = false
+
+                GlobalScope.launch(Dispatchers.IO) {
+                    tasksData = ArrayList(appDatabase.taskDao().getTasks())
+                }
+            }
 
             override fun onResponse(call: Call<List<Task>>, response: Response<List<Task>>) {
                 if(response.body() != null) {
-                    tasksLoaded = true
                     tasksData = ArrayList(response.body()!!)
 
                     tasksData.filter { it.category == null }.forEach { it.category = Category(-1, "NULL") }
@@ -184,11 +197,7 @@ object Repository {
         val request = notForgotAPI.postTask(TOKEN_PREFIX + token, taskForm)
 
         request.enqueue(object : Callback<Task> {
-            override fun onFailure(call: Call<Task>, t: Throwable) {
-                GlobalScope.launch(Dispatchers.IO) {
-
-                }
-            }
+            override fun onFailure(call: Call<Task>, t: Throwable) {}
 
             override fun onResponse(call: Call<Task>, response: Response<Task>) {
                 if(response.body() != null) {
@@ -250,11 +259,33 @@ object Repository {
         })
     }
 
-    fun clearTasksFromAppDatabase() {
+    fun appDataBaseRefreshCategories() {
         GlobalScope.launch(Dispatchers.IO) {
-            tasksData.forEach {
-                appDatabase.taskDao().deleteTask(it)
-            }
+            appDatabase.categoryDao().deleteCategories(
+                appDatabase.categoryDao().getCategories()
+            )
+
+            appDatabase.categoryDao().postCategories(categoriesData)
+        }
+    }
+
+    fun appDataBaseRefreshPriorities() {
+        GlobalScope.launch(Dispatchers.IO) {
+            appDatabase.priorityDao().deletePriorities(
+                appDatabase.priorityDao().getPriorities()
+            )
+
+            appDatabase.priorityDao().postPriorities(prioritiesData)
+        }
+    }
+
+    fun appDataBaseRefreshTasks() {
+        GlobalScope.launch(Dispatchers.IO) {
+            appDatabase.taskDao().deleteTasks(
+                appDatabase.taskDao().getTasks()
+            )
+
+            appDatabase.taskDao().postTasks(tasksData)
         }
     }
 

@@ -10,7 +10,7 @@ interface TaskDao {
     fun getTasks(): List<Task>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun postTask(
+    fun postTasks(
         task: List<Task>
     )
 
@@ -22,6 +22,11 @@ interface TaskDao {
     @Delete
     fun deleteTask(
         task: Task
+    )
+
+    @Delete
+    fun deleteTasks(
+        tasks: List<Task>
     )
 
 }

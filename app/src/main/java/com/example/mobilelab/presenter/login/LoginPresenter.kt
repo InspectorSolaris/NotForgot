@@ -44,6 +44,21 @@ class LoginPresenter(
         email: String,
         password: String
     ) {
+        if(!loginFormDataIsCorrect(
+                email,
+                password
+            )
+        ) {
+            Toast
+                .makeText(
+                    context,
+                    context.getText(R.string.login_toast_on_incorrect_login_form_data),
+                    Toast.LENGTH_LONG
+                ).show()
+
+            return
+        }
+
         Repository.loginUser(
             UserLoginForm(email, password),
             {
@@ -81,6 +96,13 @@ class LoginPresenter(
         loginView?.startActivity(
             Intent(context, RegistrationActivity::class.java)
         )
+    }
+
+    private fun loginFormDataIsCorrect(
+        email: String,
+        password: String
+    ): Boolean {
+        return email.isNotEmpty() && password.isNotEmpty()
     }
 
 }

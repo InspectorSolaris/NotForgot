@@ -6,6 +6,10 @@ interface TaskListInterface {
 
     fun initRecyclerView()
 
+    fun runLottieAnimation(
+        duration: Long
+    )
+
     fun startActivityForResult(
         intent: Intent?,
         requestCode: Int

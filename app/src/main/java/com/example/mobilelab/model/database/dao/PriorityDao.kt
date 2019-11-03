@@ -1,9 +1,6 @@
 package com.example.mobilelab.model.database.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.mobilelab.model.taskData.Priority
 
 @Dao
@@ -14,6 +11,11 @@ interface PriorityDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun postPriorities(
+        priorities: List<Priority>
+    )
+
+    @Delete
+    fun deletePriorities(
         priorities: List<Priority>
     )
 

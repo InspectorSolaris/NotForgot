@@ -1,9 +1,6 @@
 package com.example.mobilelab.model.database.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.mobilelab.model.taskData.Category
 
 @Dao
@@ -13,7 +10,12 @@ interface CategoryDao {
     fun getCategories(): List<Category>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun postCategory(
+    fun postCategories(
+        categories: List<Category>
+    )
+
+    @Delete
+    fun deleteCategories(
         categories: List<Category>
     )
 

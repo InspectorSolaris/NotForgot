@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.content_task_list.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.time.Duration
 import java.util.*
 
 class TaskListActivity :
@@ -29,14 +30,6 @@ class TaskListActivity :
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_list)
         setSupportActionBar(toolbar)
-
-        Timer().schedule(object : TimerTask() {
-            override fun run() {
-                GlobalScope.launch(Dispatchers.Main) {
-                    lottieAnimation.visibility = View.GONE
-                }
-            }
-        }, 6500)
 
         taskListPresenter = TaskListPresenter(this, applicationContext)
 
@@ -110,6 +103,20 @@ class TaskListActivity :
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter
         }
+    }
+
+    override fun runLottieAnimation(
+        duration: Long
+    ) {
+        lottieAnimation.playAnimation()
+
+        Timer().schedule(object : TimerTask() {
+            override fun run() {
+                GlobalScope.launch(Dispatchers.Main) {
+                    lottieAnimation.visibility = View.GONE
+                }
+            }
+        }, duration)
     }
 
     override fun startActivityForResult(

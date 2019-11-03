@@ -11,6 +11,7 @@
     <string name="login_email_hint">Email</string>
     <string name="login_password_hint">Password</string>
     <string name="login_toast_on_failed">Failed to login. Check internet connection</string>
+    <string name="login_toast_on_incorrect_login_form_data">Incorrect login form data</string>
 
     <string name="registration_title">Регистрация</string>
     <string name="registration_button_text">Зарегистрироваться</string>
