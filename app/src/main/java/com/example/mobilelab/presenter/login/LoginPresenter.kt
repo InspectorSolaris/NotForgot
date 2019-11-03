@@ -49,27 +49,25 @@ class LoginPresenter(
                         Toast.LENGTH_LONG
                     )
                     .show()
-            },
-            { _, response ->
-                if(response.body() != null)
-                {
-                    sharedPreferencesHandler.saveString(
-                        context.getString(R.string.shared_preferences_user_token),
-                        response.body()!!.api_token
-                    )
-
-                    loginView?.onSuccessLogin()
-                } else {
-                    Toast
-                        .makeText(
-                            context,
-                            response.message(),
-                            Toast.LENGTH_LONG
-                        )
-                        .show()
-                }
             }
-        )
+        ) { _, response ->
+            if (response.body() != null) {
+                sharedPreferencesHandler.saveString(
+                    context.getString(R.string.shared_preferences_user_token),
+                    response.body()!!.api_token
+                )
+
+                loginView?.onSuccessLogin()
+            } else {
+                Toast
+                    .makeText(
+                        context,
+                        response.message(),
+                        Toast.LENGTH_LONG
+                    )
+                    .show()
+            }
+        }
     }
 
     fun onRegistrationButtonClick() {

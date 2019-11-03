@@ -49,6 +49,25 @@ class TaskDetailsPresenter(
         }
     }
 
+    fun startActivityForResult(
+        intent: Intent?,
+        requestCode: Int
+    ) {
+        intent?.putExtra(TaskListActivity.TASK_ID, taskId)
+        intent?.putExtra(TaskListActivity.REQUEST_CODE_STRING, requestCode)
+    }
+
+    fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int,
+        data: Intent?
+    ) {
+        taskDetailsView?.finishActivity(
+            resultCode,
+            data
+        )
+    }
+
     private fun getDoneAsString(
         done: Int
     ): String {
@@ -109,22 +128,6 @@ class TaskDetailsPresenter(
         }
 
         return 0
-    }
-
-    fun startActivityForResult(
-        intent: Intent?,
-        requestCode: Int
-    ) {
-        intent?.putExtra(TaskListActivity.TASK_ID, taskId)
-        intent?.putExtra(TaskListActivity.REQUEST_CODE_STRING, requestCode)
-    }
-
-    fun onActivityResult(
-        requestCode: Int,
-        resultCode: Int,
-        data: Intent?
-    ) {
-
     }
 
 }

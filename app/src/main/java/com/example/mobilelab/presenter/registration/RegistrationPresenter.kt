@@ -55,26 +55,25 @@ class RegistrationPresenter(
                         Toast.LENGTH_LONG
                     )
                     .show()
-            },
-            { _, response ->
-                if (response.body() != null) {
-                    sharedPreferencesHandler.saveString(
-                        context.getString(R.string.shared_preferences_user_token),
-                        response.body()!!.api_token
-                    )
-
-                    registrationView?.onSuccessRegistration()
-                } else {
-                    Toast
-                        .makeText(
-                            context,
-                            response.message(),
-                            Toast.LENGTH_LONG
-                        )
-                        .show()
-                }
             }
-        )
+        ) { _, response ->
+            if (response.body() != null) {
+                sharedPreferencesHandler.saveString(
+                    context.getString(R.string.shared_preferences_user_token),
+                    response.body()!!.api_token
+                )
+
+                registrationView?.onSuccessRegistration()
+            } else {
+                Toast
+                    .makeText(
+                        context,
+                        response.message(),
+                        Toast.LENGTH_LONG
+                    )
+                    .show()
+            }
+        }
     }
 
     fun onLoginButtonClick() {

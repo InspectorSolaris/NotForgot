@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobilelab.R
 import com.example.mobilelab.model.Repository
+import com.example.mobilelab.model.SharedPreferencesHandler
 import com.example.mobilelab.model.taskData.Task
 import kotlinx.android.synthetic.main.task_view_category.view.*
 import kotlinx.android.synthetic.main.task_view_task.view.*
@@ -23,6 +24,10 @@ class TaskListAdapter(
     private val tasksData: ArrayList<Task> = Repository.getTasksData()
 ) : RecyclerView.Adapter<TaskListAdapter.TaskListViewHolder>() {
 
+    private val sharedPreferencesHandler = SharedPreferencesHandler(
+        context,
+        context.getString(R.string.shared_preferences_file)
+    )
     private val random = Random(System.currentTimeMillis())
     private val colors = arrayListOf(
         Color.BLUE, Color.CYAN, Color.GREEN,
@@ -159,18 +164,22 @@ class TaskListAdapter(
     fun deleteData(
         position: Int
     ) {
-        tasksData.removeAt(getTaskPosition(position))
-        listener.onListChange(tasksData.size)
+        val token = sharedPreferencesHandler.readString(context.getString(R.string.shared_preferences_user_token))
+        val taskData = tasksData[getTaskPosition(position)]
 
-        notifyDataSetChanged()
+        Repository.deleteTask(
+            token,
+            taskData.id,
+            { _, _ ->
+            }
+        ) { _, _ ->
+            listener.onListChange(tasksData.size)
+
+            notifyDataSetChanged()
+        }
     }
 
-    fun addData(
-        newTask: Task
-    ) {
-        val position = tasksData.indexOfLast { task -> task.category?.id == newTask.category?.id } + 1
-
-        tasksData.add(position, newTask)
+    fun dataAdded() {
         listener.onListChange(tasksData.size)
 
         notifyDataSetChanged()

@@ -1,6 +1,5 @@
 package com.example.mobilelab.view.taskEdit
 
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.DialogInterface
@@ -40,11 +39,11 @@ class TaskEditActivity :
 
         save.setOnClickListener {
             taskEditPresenter.onSaveClick(
-                taskTitleEditText.text.toString(),
-                taskDescriptionEditText.text.toString(),
-                taskCategory.selectedItem.toString(),
-                taskPriority.selectedItem.toString(),
-                taskDeadlineEditText.text.toString()
+                taskTitleEditText       .text.toString(),
+                taskDescriptionEditText .text.toString(),
+                taskCategory            .selectedItem.toString(),
+                taskPriority            .selectedItem.toString(),
+                taskDeadlineEditText    .text.toString()
             )
         }
 
@@ -57,11 +56,8 @@ class TaskEditActivity :
         }
 
         taskTitleEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+            override fun afterTextChanged   (p0: Editable?) {}
+            override fun beforeTextChanged  (p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 taskTitleEditText.error = null
@@ -69,11 +65,8 @@ class TaskEditActivity :
         })
 
         taskDescriptionEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+            override fun afterTextChanged   (p0: Editable?) {}
+            override fun beforeTextChanged  (p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 taskDescriptionEditText.error = null
@@ -81,11 +74,8 @@ class TaskEditActivity :
         })
 
         taskDeadlineEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
+            override fun afterTextChanged   (p0: Editable?) {}
+            override fun beforeTextChanged  (p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 taskDeadlineEditText.error = null
@@ -93,15 +83,6 @@ class TaskEditActivity :
         })
 
         taskEditPresenter.initData(intent.extras)
-    }
-
-    companion object {
-        const val TASK_TITLE = "taskName"
-        const val TASK_DESCRIPTION = "taskDescription"
-        const val TASK_CATEGORY_NAME = "taskCategory"
-        const val TASK_PRIORITY_NAME = "taskPriority"
-        const val TASK_DEADLINE = "taskDeadline"
-        const val TASK_EDITED = "taskEdited"
     }
 
     override fun onDestroy() {
@@ -242,15 +223,11 @@ class TaskEditActivity :
         taskDeadlineEditText.error = errorText
     }
 
-    override fun finishActivity() {
-        setResult(Activity.RESULT_CANCELED)
-        finish()
-    }
-
-    override fun finishActivityWithResult(
-        intent: Intent
+    override fun finishActivity(
+        resultCode: Int,
+        intent: Intent?
     ) {
-        setResult(Activity.RESULT_OK, intent)
+        setResult(resultCode, intent)
         finish()
     }
 

@@ -3,14 +3,12 @@ package com.example.mobilelab.presenter.taskList
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import androidx.recyclerview.widget.ItemTouchHelper
 import com.example.mobilelab.R
 import com.example.mobilelab.model.Repository
 import com.example.mobilelab.model.SharedPreferencesHandler
 import com.example.mobilelab.model.taskData.Category
 import com.example.mobilelab.model.taskData.Priority
 import com.example.mobilelab.presenter.taskList.recyclerView.TaskListAdapter
-import com.example.mobilelab.view.taskEdit.TaskEditActivity
 import com.example.mobilelab.view.taskList.TaskListActivity
 import com.example.mobilelab.view.taskList.TaskListInterface
 
@@ -43,31 +41,29 @@ class TaskListPresenter(
     }
 
     fun initData() {
+        val token = sharedPreferencesHandler.readString(
+            context.getString(R.string.shared_preferences_user_token)
+        )
+
         Repository.getCategories(
-            sharedPreferencesHandler.readString(
-                context.getString(R.string.shared_preferences_user_token)
-            ),
+            token,
             { _, _ ->
             }
-        ) {
+        ) { _, _ ->
         }
 
         Repository.getPriorities(
-            sharedPreferencesHandler.readString(
-                context.getString(R.string.shared_preferences_user_token)
-            ),
+            token,
             { _, _ ->
             }
-        ) {
+        ) { _, _ ->
         }
 
         Repository.getTasks(
-            sharedPreferencesHandler.readString(
-                context.getString(R.string.shared_preferences_user_token)
-            ),
+            token,
             { _, _ ->
             }
-        ) {
+        ) { _, _ ->
             Repository.getTasksData().filter { task -> task.category == null }.forEach { task -> task.category = Category(-1, "NULL") }
             Repository.getTasksData().filter { task -> task.priority == null }.forEach { task -> task.priority = Priority(-1, "NULL", "#000000") }
             Repository.getTasksData().sortBy { T -> T.category?.id }
@@ -98,18 +94,7 @@ class TaskListPresenter(
             return
         }
 
-        when(requestCode) {
-            TaskListActivity.REQUEST_CODE_ADD_TASK -> {
-                val name = data?.getStringExtra(TaskEditActivity.TASK_TITLE)
-                val description = data?.getStringExtra(TaskEditActivity.TASK_DESCRIPTION)
-                val categoryName = data?.getStringExtra(TaskEditActivity.TASK_CATEGORY_NAME)
-                val priorityName = data?.getStringExtra(TaskEditActivity.TASK_PRIORITY_NAME)
-                val deadline = data?.getStringExtra(TaskEditActivity.TASK_DEADLINE)
-            }
-            TaskListActivity.REQUEST_CODE_EDIT_TASK -> {
-
-            }
-        }
+        taskListAdapter.dataAdded()
     }
 
 }

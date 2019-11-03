@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mobilelab.R
-import com.example.mobilelab.model.taskData.Task
 import com.example.mobilelab.presenter.taskList.TaskListPresenter
 import com.example.mobilelab.view.taskEdit.TaskEditActivity
 import com.example.mobilelab.presenter.taskList.recyclerView.TaskListAdapter
@@ -41,7 +40,7 @@ class TaskListActivity :
     }
 
     companion object {
-        const val TASK_ID = "taskId"                    // for pass task id as parameter
+        const val TASK_ID = "taskId"                    // for pass task id
         const val REQUEST_CODE_STRING = "requestCode"   // for pass request code
         const val REQUEST_CODE_ADD_TASK = 1             // for go in edit activity
         const val REQUEST_CODE_EDIT_TASK = 2            // for go in details activity
@@ -63,12 +62,9 @@ class TaskListActivity :
         val context = this
         val adapter = TaskListAdapter(
             this,
-            object :
-                TaskListAdapter.Listener {
+            object : TaskListAdapter.Listener {
 
-                override fun onListChange(
-                    size: Int
-                ) {
+                override fun onListChange(size: Int) {
                     if (size == 0) {
                         noTasks.visibility = View.VISIBLE
                     } else {

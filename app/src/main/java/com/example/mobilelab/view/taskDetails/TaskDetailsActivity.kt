@@ -110,15 +110,11 @@ class TaskDetailsActivity
         )
     }
 
-    override fun finishActivity() {
-        setResult(Activity.RESULT_CANCELED)
-        finish()
-    }
-
-    override fun finishActivityWithResult(
-        intent: Intent
+    override fun finishActivity(
+        resultCode: Int,
+        intent: Intent?
     ) {
-        setResult(Activity.RESULT_OK, intent)
+        setResult(resultCode, intent)
         finish()
     }
 
