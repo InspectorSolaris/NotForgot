@@ -28,7 +28,7 @@ class TaskListActivity :
         setContentView(R.layout.activity_task_list)
         setSupportActionBar(toolbar)
 
-        taskListPresenter = TaskListPresenter(this)
+        taskListPresenter = TaskListPresenter(this, applicationContext)
 
         fab.setOnClickListener {
             taskListPresenter.onFloatingActionButtonClick()

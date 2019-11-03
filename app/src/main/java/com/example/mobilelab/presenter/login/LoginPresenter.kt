@@ -21,7 +21,7 @@ class LoginPresenter(
         context.getString(R.string.shared_preferences_file)
     )
 
-    fun onCreate() {
+    init {
         val token = sharedPreferencesHandler.readString(
             context.getString(R.string.shared_preferences_user_token)
         )

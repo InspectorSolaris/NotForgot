@@ -3,9 +3,11 @@ package com.example.mobilelab.presenter.taskList
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import androidx.room.Room
 import com.example.mobilelab.R
 import com.example.mobilelab.model.Repository
 import com.example.mobilelab.model.SharedPreferencesHandler
+import com.example.mobilelab.model.database.AppDatabase
 import com.example.mobilelab.model.server.form.TaskForm
 import com.example.mobilelab.model.taskData.Category
 import com.example.mobilelab.model.taskData.Priority
@@ -16,7 +18,8 @@ import com.example.mobilelab.view.taskList.TaskListActivity
 import com.example.mobilelab.view.taskList.TaskListInterface
 
 class TaskListPresenter(
-    private var taskListView: TaskListInterface?
+    private var taskListView: TaskListInterface?,
+    applicationContext: Context
 ) {
 
     private val context = taskListView as Context
@@ -25,6 +28,16 @@ class TaskListPresenter(
         context.getString(R.string.shared_preferences_file)
     )
     private lateinit var taskListAdapter: TaskListAdapter
+
+    init {
+        Repository.setAppDatabase(
+            Room.databaseBuilder(
+                applicationContext,
+                AppDatabase::class.java,
+                Repository.appDatabaseName
+            ).build()
+        )
+    }
 
     fun onDestroy() {
         taskListView = null

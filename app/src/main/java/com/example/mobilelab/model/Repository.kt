@@ -1,5 +1,6 @@
 package com.example.mobilelab.model
 
+import com.example.mobilelab.model.database.AppDatabase
 import com.example.mobilelab.model.server.NotForgotAPI
 import com.example.mobilelab.model.server.form.CategoryForm
 import com.example.mobilelab.model.server.form.TaskForm
@@ -10,6 +11,9 @@ import com.example.mobilelab.model.server.user.UserRegistrationForm
 import com.example.mobilelab.model.taskData.Category
 import com.example.mobilelab.model.taskData.Priority
 import com.example.mobilelab.model.taskData.Task
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -17,9 +21,11 @@ object Repository {
 
     private val retrofit: Retrofit
     private val notForgotAPI: NotForgotAPI
+    private lateinit var appDatabase: AppDatabase
 
     private const val API_BASE_URL = "http://practice.mobile.kreosoft.ru/api/"
     private const val TOKEN_PREFIX = "Bearer "
+    const val appDatabaseName = "AppDatabase"
 
     private lateinit var categoriesData: ArrayList<Category>
     private lateinit var prioritiesData: ArrayList<Priority>
@@ -31,6 +37,12 @@ object Repository {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         notForgotAPI = retrofit.create(NotForgotAPI::class.java)
+    }
+
+    fun setAppDatabase(
+        appDatabase: AppDatabase
+    ) {
+        this.appDatabase = appDatabase
     }
 
     fun getCategoriesData(): ArrayList<Category> {
