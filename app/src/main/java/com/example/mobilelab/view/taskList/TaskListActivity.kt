@@ -2,7 +2,6 @@ package com.example.mobilelab.view.taskList
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
@@ -10,7 +9,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mobilelab.R
 import com.example.mobilelab.presenter.taskList.TaskListPresenter
-import com.example.mobilelab.view.taskEdit.TaskEditActivity
 import com.example.mobilelab.presenter.taskList.recyclerView.TaskListAdapter
 import com.example.mobilelab.presenter.taskList.recyclerView.TaskListSwipeToDeleteSimpleCallback
 
@@ -66,7 +64,6 @@ class TaskListActivity :
                         noTasks.visibility = View.GONE
                     }
                 }
-
             },
             View.OnClickListener {
                 val taskViewHolder = (it.tag as TaskListAdapter.TaskViewHolder)
