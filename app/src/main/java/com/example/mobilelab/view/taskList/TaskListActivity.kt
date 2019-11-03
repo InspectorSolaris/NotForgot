@@ -122,9 +122,7 @@ class TaskListActivity :
         super.onActivityResult(requestCode, resultCode, data)
 
         taskListPresenter.onActivityResult(
-            requestCode,
-            resultCode,
-            data
+            resultCode
         )
     }
 

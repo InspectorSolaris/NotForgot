@@ -1,6 +1,5 @@
 package com.example.mobilelab.view.taskEdit
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.widget.DatePicker
 import kotlin.collections.ArrayList
@@ -8,13 +7,11 @@ import kotlin.collections.ArrayList
 interface TaskEditInterface {
 
     fun onSaveButtonClick(
-        onPositiveButtonClick: () -> Unit,
-        onNeutralButtonClick: () -> Unit
+        onPositiveButtonClick: () -> Unit
     )
 
     fun addCategoryAlertDialog(
-        onPositiveButtonClick: (DialogInterface, Int, String) -> Unit,
-        onNegativeButtonClick: (DialogInterface, Int) -> Unit
+        onPositiveButtonClick: (String) -> Unit
     )
 
     fun taskDeadlineDatePickerDialog(

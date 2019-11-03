@@ -189,10 +189,8 @@ class TaskListAdapter(
 
         Repository.deleteTask(
             token,
-            taskData.id,
-            { _, _ ->
-            }
-        ) { _, _ ->
+            taskData.id
+        ) {
             listener.onListChange(tasksData.size)
 
             notifyDataSetChanged()

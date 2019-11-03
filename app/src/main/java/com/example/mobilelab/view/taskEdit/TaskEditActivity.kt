@@ -2,7 +2,6 @@ package com.example.mobilelab.view.taskEdit
 
 import android.app.DatePickerDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -92,8 +91,7 @@ class TaskEditActivity :
     }
 
     override fun onSaveButtonClick(
-        onPositiveButtonClick: () -> Unit,
-        onNeutralButtonClick: () -> Unit
+        onPositiveButtonClick: () -> Unit
     ) {
         AlertDialog.Builder(this)
             .setTitle(this.getText(R.string.edit_alert_dialog_save_title))
@@ -101,26 +99,21 @@ class TaskEditActivity :
                 onPositiveButtonClick()
             }
             .setNeutralButton(this.getText(R.string.edit_alert_dialog_save_neutral_button)) { _, _ ->
-                onNeutralButtonClick()
             }
             .create()
             .show()
     }
 
     override fun addCategoryAlertDialog(
-        onPositiveButtonClick: (DialogInterface, Int, String) -> Unit,
-        onNegativeButtonClick: (DialogInterface, Int) -> Unit
+        onPositiveButtonClick: (String) -> Unit
     ) {
         AlertDialog.Builder(this)
             .setTitle(R.string.edit_alert_dialog_title)
-            .setPositiveButton(R.string.edit_alert_dialog_positive_button) { dialogInterface, i ->
+            .setPositiveButton(R.string.edit_alert_dialog_positive_button) { dialogInterface, _ ->
                 val dialog = dialogInterface as Dialog
                 val categoryName = (dialog.findViewById(R.id.addCategoryEditText) as EditText).text.toString()
 
-                onPositiveButtonClick(dialogInterface, i, categoryName)
-            }
-            .setNegativeButton(R.string.edit_alert_dialog_negative_button) { dialogInterface, i ->
-                onNegativeButtonClick(dialogInterface, i)
+                onPositiveButtonClick(categoryName)
             }
             .setView(R.layout.add_category_view)
             .create()
@@ -192,7 +185,7 @@ class TaskEditActivity :
             this,
             android.R.layout.simple_spinner_item,
             prioritiesString
-        ).also {adapter ->
+        ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
             taskPriority.adapter = adapter

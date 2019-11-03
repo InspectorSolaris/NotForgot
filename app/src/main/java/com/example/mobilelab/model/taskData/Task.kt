@@ -1,7 +1,11 @@
 package com.example.mobilelab.model.taskData
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
 data class Task(
-    val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     val title: String,
     val description: String,
     val done: Int,

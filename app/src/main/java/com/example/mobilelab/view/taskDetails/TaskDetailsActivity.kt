@@ -5,8 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mobilelab.R
 import com.example.mobilelab.presenter.taskDetails.TaskDetailsPresenter
-import com.example.mobilelab.view.taskEdit.TaskEditActivity
-import com.example.mobilelab.view.taskList.TaskListActivity
 import kotlinx.android.synthetic.main.activity_task_list.*
 import kotlinx.android.synthetic.main.content_task_details.*
 
@@ -97,7 +95,6 @@ class TaskDetailsActivity
         super.onActivityResult(requestCode, resultCode, data)
 
         taskDetailsPresenter.onActivityResult(
-            requestCode,
             resultCode,
             data
         )

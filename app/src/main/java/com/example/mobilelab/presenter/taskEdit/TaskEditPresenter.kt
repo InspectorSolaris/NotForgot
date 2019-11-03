@@ -40,129 +40,56 @@ class TaskEditPresenter(
         priorityName: String,
         deadline: String
     ) {
-        taskEditView?.onSaveButtonClick({
-                var noErrors = true
+        taskEditView?.onSaveButtonClick {
+            var noErrors = true
 
-                if(title.isEmpty()) {
-                    taskEditView?.setTitleError(context.getString(R.string.edit_task_title_is_empty))
+            if(title.isEmpty()) {
+                taskEditView?.setTitleError(context.getString(R.string.edit_task_title_is_empty))
 
-                    noErrors = false
-                }
+                noErrors = false
+            }
 
-                if(description.isEmpty()) {
-                    taskEditView?.setDescriptionError(context.getString(R.string.edit_task_description_is_empty))
+            if(description.isEmpty()) {
+                taskEditView?.setDescriptionError(context.getString(R.string.edit_task_description_is_empty))
 
-                    noErrors = false
-                }
+                noErrors = false
+            }
 
-                if(description.length > 120) {
-                    taskEditView?.setDescriptionError(context.getString(R.string.edit_task_description_too_long))
+            if(description.length > 120) {
+                taskEditView?.setDescriptionError(context.getString(R.string.edit_task_description_too_long))
 
-                    noErrors = false
-                }
+                noErrors = false
+            }
 
-                if(deadline.isEmpty()) {
-                    taskEditView?.setDeadlineError(context.getString(R.string.edit_task_deadline_is_empty))
+            if(deadline.isEmpty()) {
+                taskEditView?.setDeadlineError(context.getString(R.string.edit_task_deadline_is_empty))
 
-                    noErrors = false
-                }
+                noErrors = false
+            }
 
-                if(noErrors) {
-                    val taskWasEdited = taskEdited(
-                        title,
-                        description,
-                        categoryName,
-                        priorityName,
-                        deadline
-                    )
-                    var result = Activity.RESULT_CANCELED
-
-                    if(taskWasEdited) {
-                        val token = sharedPreferencesHandler.readString(context.getString(R.string.shared_preferences_user_token))
-                        val deadlineLong = SimpleDateFormat(context.getString(R.string.date_pattern), Locale.US).parse(deadline)!!.time
-                        val millsPerSec = 1000
-                        val form = TaskForm(
-                            title,
-                            description,
-                            0,
-                            deadlineLong / millsPerSec,
-                            Repository.getCategoriesData().find { it.name == categoryName }!!.id,
-                            Repository.getPrioritiesData().find { it.name == priorityName }!!.id
-                        )
-
-                        when(requestCode) {
-                            TaskListActivity.REQUEST_CODE_ADD_TASK -> {
-                                Repository.postTask(
-                                    token,
-                                    form,
-                                    { _, _ ->
-                                        taskEditView?.finishActivityWithResult(
-                                            result,
-                                            null
-                                        )
-                                    }
-                                ) { _, response ->
-                                    if(response.body() != null) {
-                                        result = Activity.RESULT_OK
-
-                                        taskData = response.body()!!
-                                    }
-
-                                    taskEditView?.finishActivityWithResult(
-                                        result,
-                                        null
-                                    )
-                                }
-                            }
-                            TaskListActivity.REQUEST_CODE_EDIT_TASK -> {
-                                Repository.patchTask(
-                                    token,
-                                    taskData.id,
-                                    form,
-                                    { _, _ ->
-                                        taskEditView?.finishActivityWithResult(
-                                            result,
-                                            null
-                                        )
-                                    }
-                                ) { _, response ->
-                                    if(response.body() != null) {
-                                        result = Activity.RESULT_OK
-                                    }
-
-                                    taskEditView?.finishActivityWithResult(
-                                        result,
-                                        null
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
-            }, {}
-        )
+            if(noErrors) {
+                saveTask(
+                    title,
+                    description,
+                    categoryName,
+                    priorityName,
+                    deadline
+                )
+            }
+        }
     }
 
     fun onAddCategoryClick() {
-        taskEditView?.addCategoryAlertDialog(
-            { _, _, categoryName ->
-                if(categoryName.isNotEmpty()) {
-                    Repository.postCategory(
-                        sharedPreferencesHandler.readString(context.getString(R.string.shared_preferences_user_token)),
-                        CategoryForm(categoryName),
-                        { _, _ ->
-                        }
-                    ) { _, response ->
-                        if(response.body() != null) {
-                            initCategories()
-                        }
-                    }
+        taskEditView?.addCategoryAlertDialog { categoryName ->
+            if(categoryName.isNotEmpty()) {
+                Repository.postCategory(
+                    sharedPreferencesHandler.readString(context.getString(R.string.shared_preferences_user_token)),
+                    CategoryForm(categoryName)
+                ) {
+                    initCategories()
                 }
-            },
-            { _, _ ->
-
             }
-        )
+        }
     }
 
     fun onTaskDeadlineClick() {
@@ -201,6 +128,61 @@ class TaskEditPresenter(
 
         initCategories()
         initPriorities()
+    }
+
+    private fun saveTask(
+        title: String,
+        description: String,
+        categoryName: String,
+        priorityName: String,
+        deadline: String
+    ) {
+        val taskWasEdited = taskEdited(
+            title,
+            description,
+            categoryName,
+            priorityName,
+            deadline
+        )
+        if(taskWasEdited) {
+            val token = sharedPreferencesHandler.readString(context.getString(R.string.shared_preferences_user_token))
+            val deadlineLong = SimpleDateFormat(context.getString(R.string.date_pattern), Locale.US).parse(deadline)!!.time
+            val millsPerSec = 1000
+            val form = TaskForm(
+                title,
+                description,
+                0,
+                deadlineLong / millsPerSec,
+                Repository.getCategoriesData().find { it.name == categoryName }!!.id,
+                Repository.getPrioritiesData().find { it.name == priorityName }!!.id
+            )
+
+            when(requestCode) {
+                TaskListActivity.REQUEST_CODE_ADD_TASK -> {
+                    Repository.postTask(
+                        token,
+                        form
+                    ) {
+                        taskEditView?.finishActivityWithResult(
+                            Activity.RESULT_OK,
+                            null
+                        )
+                    }
+                }
+                TaskListActivity.REQUEST_CODE_EDIT_TASK -> {
+                    Repository.patchTask(
+                        token,
+                        taskData.id,
+                        form
+                    ) {
+                        taskEditView?.finishActivityWithResult(
+                            Activity.RESULT_OK,
+                            null
+                        )
+                    }
+                }
+            }
+        }
     }
 
     private fun initCategories() {

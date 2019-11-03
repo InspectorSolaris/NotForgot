@@ -9,13 +9,14 @@ import com.example.mobilelab.model.Repository
 import com.example.mobilelab.model.SharedPreferencesHandler
 import com.example.mobilelab.model.database.AppDatabase
 import com.example.mobilelab.model.server.form.TaskForm
-import com.example.mobilelab.model.taskData.Category
-import com.example.mobilelab.model.taskData.Priority
 import com.example.mobilelab.presenter.taskList.recyclerView.TaskListAdapter
 import com.example.mobilelab.view.taskDetails.TaskDetailsActivity
 import com.example.mobilelab.view.taskEdit.TaskEditActivity
 import com.example.mobilelab.view.taskList.TaskListActivity
 import com.example.mobilelab.view.taskList.TaskListInterface
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class TaskListPresenter(
     private var taskListView: TaskListInterface?,
@@ -34,7 +35,7 @@ class TaskListPresenter(
             Room.databaseBuilder(
                 applicationContext,
                 AppDatabase::class.java,
-                Repository.appDatabaseName
+                Repository.APP_DATABASE_NAME
             ).build()
         )
     }
@@ -61,6 +62,8 @@ class TaskListPresenter(
             context.getString(R.string.shared_preferences_null_token)
         )
 
+        Repository.clearTasksFromAppDatabase()
+
         taskListView?.finish()
     }
 
@@ -69,10 +72,11 @@ class TaskListPresenter(
             context.getString(R.string.shared_preferences_user_token)
         )
 
-        Repository.getTasks(
-            token,
-            {}
-        ) {
+        Repository.getCategories(token)
+
+        Repository.getPriorities(token)
+
+        Repository.getTasks(token) {
             taskListView?.initRecyclerView()
         }
     }
@@ -114,11 +118,8 @@ class TaskListPresenter(
                 taskData.deadline,
                 taskData.category!!.id,
                 taskData.priority!!.id
-            ),
-            { _, _ ->
-                setIsCheck(Repository.getTasksData()[taskPosition].done)
-            }
-        ) { _, _ ->
+            )
+        ) {
             setIsCheck(Repository.getTasksData()[taskPosition].done)
         }
 
@@ -131,9 +132,7 @@ class TaskListPresenter(
     }
 
     fun onActivityResult(
-        requestCode: Int,
-        resultCode: Int,
-        data: Intent?
+        resultCode: Int
     ) {
         if(resultCode != Activity.RESULT_OK) {
             return

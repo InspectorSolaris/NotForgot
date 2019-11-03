@@ -46,7 +46,7 @@ class LoginPresenter(
     ) {
         Repository.loginUser(
             UserLoginForm(email, password),
-            { _, _ ->
+            {
                 Toast
                     .makeText(
                         context,
@@ -55,7 +55,7 @@ class LoginPresenter(
                     )
                     .show()
             }
-        ) { _, response ->
+        ) { response ->
             if (response.body() != null) {
                 sharedPreferencesHandler.saveString(
                     context.getString(R.string.shared_preferences_user_token),

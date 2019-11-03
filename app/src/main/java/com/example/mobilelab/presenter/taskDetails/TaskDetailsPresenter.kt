@@ -63,7 +63,6 @@ class TaskDetailsPresenter(
     }
 
     fun onActivityResult(
-        requestCode: Int,
         resultCode: Int,
         data: Intent?
     ) {
