@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class TaskExt(
-    @PrimaryKey val token: String,
+    val token: String,
     @PrimaryKey(autoGenerate = true) val id: Int,
     val title: String,
     val description: String,

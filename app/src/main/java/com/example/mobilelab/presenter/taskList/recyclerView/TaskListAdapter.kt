@@ -202,7 +202,7 @@ class TaskListAdapter(
     fun dataAdded() {
         listener.onListChange(tasksData.size)
 
-        notifyItemRangeChanged(0, itemCount)
+        notifyDataSetChanged()
     }
 
 }
