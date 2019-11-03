@@ -8,11 +8,10 @@ import com.example.mobilelab.model.server.user.Token
 import com.example.mobilelab.model.server.user.User
 import com.example.mobilelab.model.server.user.UserLoginForm
 import com.example.mobilelab.model.server.user.UserRegistrationForm
-import com.example.mobilelab.model.taskData.Category
-import com.example.mobilelab.model.taskData.Priority
-import com.example.mobilelab.model.taskData.Task
+import com.example.mobilelab.model.taskData.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
@@ -27,9 +26,9 @@ object Repository {
     private const val TOKEN_PREFIX = "Bearer "
     const val appDatabaseName = "AppDatabase"
 
-    private lateinit var categoriesData: ArrayList<Category>
-    private lateinit var prioritiesData: ArrayList<Priority>
-    private lateinit var tasksData: ArrayList<Task>
+    private var categoriesData: ArrayList<Category> = arrayListOf()
+    private var prioritiesData: ArrayList<Priority> = arrayListOf()
+    private var tasksData: ArrayList<Task> = arrayListOf()
 
     init {
         retrofit = Retrofit.Builder()
@@ -95,72 +94,170 @@ object Repository {
         })
     }
 
-    fun getCategories(
-        token: String,
-        onFailure: (Call<List<Category>>, Throwable) -> Unit,
-        onResponse: (Call<List<Category>>, Response<List<Category>>) -> Unit
+    private fun getCategories(
+        token: String
     ) {
+        GlobalScope.launch(Dispatchers.IO) {
+            val categories = appDatabase.categoryDao().getCategories()
+
+            categories.forEach {
+                if(categoriesData.indexOfFirst { c -> it.id == c.id } == -1) {
+                    categoriesData.add(it)
+                }
+            }
+
+            categoriesData.sortBy { it.id }
+        }
+
         val categoryRequest = notForgotAPI.getCategories(TOKEN_PREFIX + token)
 
         categoryRequest.enqueue(object : Callback<List<Category>> {
             override fun onFailure(call: Call<List<Category>>, t: Throwable) {
-                onFailure(call, t)
             }
 
             override fun onResponse(call: Call<List<Category>>, response: Response<List<Category>>) {
                 if(response.body() != null) {
-                    categoriesData = ArrayList(response.body()!!)
+                    val categories = ArrayList(response.body()!!)
+
+                    GlobalScope.launch(Dispatchers.IO) {
+                        categories.forEach {
+                            if(categoriesData.indexOfFirst { c -> it.id == c.id } == -1) {
+                                categoriesData.add(it)
+                            }
+                        }
+
+                        categoriesData.sortBy { it.id }
+                        appDatabase.categoryDao().postCategory(categoriesData)
+                    }
                 }
-
-                onResponse(call, response)
             }
-
         })
     }
 
-    fun getPriorities(
-        token: String,
-        onFailure: (Call<List<Priority>>, Throwable) -> Unit,
-        onResponse: (Call<List<Priority>>, Response<List<Priority>>) -> Unit
+    private fun getPriorities(
+        token: String
     ) {
+        GlobalScope.launch(Dispatchers.IO) {
+            val priorities = appDatabase.priorityDao().getPriorities()
+
+            priorities.forEach {
+                if(prioritiesData.indexOfFirst { c -> it.id == c.id } == -1) {
+                    prioritiesData.add(it)
+                }
+            }
+
+            prioritiesData.sortBy { it.id }
+        }
+
         val priorityRequest = notForgotAPI.getPriorities(TOKEN_PREFIX + token)
 
         priorityRequest.enqueue(object : Callback<List<Priority>> {
             override fun onFailure(call: Call<List<Priority>>, t: Throwable) {
-                onFailure(call, t)
             }
 
             override fun onResponse(call: Call<List<Priority>>, response: Response<List<Priority>>) {
                 if(response.body() != null) {
-                    prioritiesData = ArrayList(response.body()!!)
+                    val priorities = ArrayList(response.body()!!)
+
+                    GlobalScope.launch(Dispatchers.IO) {
+                        priorities.forEach {
+                            if(prioritiesData.indexOfFirst { c -> it.id == c.id } == -1) {
+                                prioritiesData.add(it)
+                            }
+                        }
+
+                        prioritiesData.sortBy { it.id }
+                        appDatabase.priorityDao().postPriorities(priorities)
+                    }
                 }
-
-                onResponse(call, response)
             }
-
         })
     }
 
     fun getTasks(
         token: String,
-        onFailure: (Call<List<Task>>, Throwable) -> Unit,
-        onResponse: (Call<List<Task>>, Response<List<Task>>) -> Unit
+        onFailure: () -> Unit,
+        onResponse: () -> Unit
     ) {
+        val categories = GlobalScope.async {
+            getCategories(token)
+        }
+        val priorities = GlobalScope.async {
+            getPriorities(token)
+        }
+
+        GlobalScope.launch(Dispatchers.IO) {
+            val tasksExt = appDatabase.taskDao().getTasks(token)
+            val tasks = tasksExt.map {
+                Task(
+                    it.id,
+                    it.title,
+                    it.description,
+                    it.done,
+                    it.created,
+                    it.deadline,
+                    Category(it.category_id, ""),
+                    Priority(it.priority_id, "", "")
+                )
+            }
+
+            tasks.forEach {
+                if(tasksData.indexOfFirst { c -> it.id == c.id } == -1) {
+                    tasksData.add(it)
+                }
+            }
+
+            tasksData.sortBy { it.id }
+        }
+
         val taskRequest = notForgotAPI.getTasks(TOKEN_PREFIX + token)
 
         taskRequest.enqueue(object : Callback<List<Task>> {
             override fun onFailure(call: Call<List<Task>>, t: Throwable) {
-                onFailure(call, t)
+                onFailure()
             }
 
             override fun onResponse(call: Call<List<Task>>, response: Response<List<Task>>) {
                 if(response.body() != null) {
-                    tasksData = ArrayList(response.body()!!)
+                    val tasks = ArrayList(response.body()!!)
+
+                    GlobalScope.launch(Dispatchers.IO) {
+                        tasks.forEach {
+                            if(tasksData.indexOfFirst { c -> it.id == c.id } == -1) {
+                                tasksData.add(it)
+                            }
+                        }
+
+                        tasksData.sortBy { it.id }
+                        appDatabase.taskDao().postTask(tasksData.map {
+                            TaskExt(
+                                token,
+                                it.id,
+                                it.title,
+                                it.description,
+                                it.done,
+                                it.created,
+                                it.deadline,
+                                it.category!!.id,
+                                it.priority!!.id
+                            )
+                        })
+
+                        categories.await()
+                        priorities.await()
+
+                        tasksData.filter { it.category == null }.forEach { it.category = Category(-1, "NULL") }
+                        tasksData.filter { it.priority == null }.forEach { it.priority = Priority(-1, "NULL", "#000000") }
+                        tasksData.filter { it.category!!.id != -1 }.forEach { it.category = categoriesData.find { c -> it.category!!.id == c.id } }
+                        tasksData.filter { it.priority!!.id != -1 }.forEach { it.priority = prioritiesData.find { c -> it.priority!!.id == c.id } }
+                        tasksData.sortBy { T -> T.category?.id }
+
+                        launch(Dispatchers.Main) {
+                            onResponse()
+                        }
+                    }
                 }
-
-                onResponse(call, response)
             }
-
         })
     }
 

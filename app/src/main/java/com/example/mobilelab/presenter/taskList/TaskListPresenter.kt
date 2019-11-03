@@ -69,29 +69,10 @@ class TaskListPresenter(
             context.getString(R.string.shared_preferences_user_token)
         )
 
-        Repository.getCategories(
-            token,
-            { _, _ ->
-            }
-        ) { _, _ ->
-        }
-
-        Repository.getPriorities(
-            token,
-            { _, _ ->
-            }
-        ) { _, _ ->
-        }
-
         Repository.getTasks(
             token,
-            { _, _ ->
-            }
-        ) { _, _ ->
-            Repository.getTasksData().filter { task -> task.category == null }.forEach { task -> task.category = Category(-1, "NULL") }
-            Repository.getTasksData().filter { task -> task.priority == null }.forEach { task -> task.priority = Priority(-1, "NULL", "#000000") }
-            Repository.getTasksData().sortBy { T -> T.category?.id }
-
+            {}
+        ) {
             taskListView?.initRecyclerView()
         }
     }
