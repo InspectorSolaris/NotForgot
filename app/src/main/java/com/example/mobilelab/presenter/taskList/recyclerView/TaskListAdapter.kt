@@ -2,8 +2,6 @@ package com.example.mobilelab.presenter.taskList.recyclerView
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +10,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobilelab.R
+import com.example.mobilelab.model.Repository
 import com.example.mobilelab.model.taskData.Task
 import kotlinx.android.synthetic.main.task_view_category.view.*
 import kotlinx.android.synthetic.main.task_view_task.view.*
@@ -20,8 +19,8 @@ import kotlin.random.Random
 
 class TaskListAdapter(
     val context: Context,
-    private val tasksData: ArrayList<Task>,
-    private val listener: Listener
+    private val listener: Listener,
+    private val tasksData: ArrayList<Task> = Repository.getTasksData()
 ) : RecyclerView.Adapter<TaskListAdapter.TaskListViewHolder>() {
 
     private val random = Random(System.currentTimeMillis())
@@ -56,7 +55,7 @@ class TaskListAdapter(
 
         var color: ConstraintLayout = task.taskColor
         var title: TextView = task.taskTitle
-        var description: TextView = task.taskBeginning
+        var description: TextView = task.taskCreated
         var done: CheckBox = task.taskDone
 
     }

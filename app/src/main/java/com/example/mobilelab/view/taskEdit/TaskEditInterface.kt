@@ -1,10 +1,16 @@
-package com.example.mobilelab.view.taskCreate
+package com.example.mobilelab.view.taskEdit
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.widget.DatePicker
 import kotlin.collections.ArrayList
 
-interface TaskCreateInterface {
+interface TaskEditInterface {
+
+    fun onSaveButtonClick(
+        onPositiveButtonClick: () -> Unit,
+        onNeutralButtonClick: () -> Unit
+    )
 
     fun addCategoryAlertDialog(
         onPositiveButtonClick: (DialogInterface, Int, String) -> Unit,
@@ -15,12 +21,12 @@ interface TaskCreateInterface {
         onDatePicked: (DatePicker?, Int, Int, Int) -> Unit
     )
 
-    fun setScreenName(
-        name: String
+    fun setScreenTitle(
+        title: String
     )
 
-    fun setTaskName(
-        name: String
+    fun setTaskTitle(
+        title: String
     )
 
     fun setTaskDescription(
@@ -41,6 +47,22 @@ interface TaskCreateInterface {
         priorityName: String
     )
 
+    fun setTitleError(
+        errorText: String
+    )
+
+    fun setDescriptionError(
+        errorText: String
+    )
+
+    fun setDeadlineError(
+        errorText: String
+    )
+
     fun finishActivity()
+
+    fun finishActivityWithResult(
+        intent: Intent
+    )
 
 }

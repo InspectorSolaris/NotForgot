@@ -27,13 +27,14 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:background="#FFFFFF"
+        android:elevation="6dp"
         app:layout_constraintBottom_toTopOf="@+id/edit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/taskTitle">
 
         <TextView
-            android:id="@+id/taskBeginning"
+            android:id="@+id/taskCreated"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -67,7 +68,7 @@
             app:layout_constraintBottom_toTopOf="@+id/taskDeadlineImg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/taskBeginning" />
+            app:layout_constraintTop_toBottomOf="@+id/taskCreated" />
 
         <ImageView
             android:id="@+id/taskCategoryImg"

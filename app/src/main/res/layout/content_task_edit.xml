@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/createBackground"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".view.taskCreate.TaskCreateActivity"
-    tools:showIn="@layout/activity_task_create">
+    tools:context=".view.taskEdit.TaskEditActivity"
+    tools:showIn="@layout/activity_task_edit">
 
     <TextView
         android:id="@+id/screenName"
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/create_screen_name_default"
+        android:text="@string/edit_screen_name_default"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,25 +26,33 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:background="#FFFFFF"
+        android:elevation="6dp"
         app:layout_constraintBottom_toTopOf="@+id/save"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/screenName">
+        app:layout_constraintTop_toBottomOf="@+id/screenName"
+        app:layout_constraintVertical_bias="1.0">
 
-        <EditText
-            android:id="@+id/taskTitle"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/taskTitleLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:ems="10"
-            android:hint="@string/create_task_name_hint"
-            android:importantForAutofill="no"
-            android:inputType="textPersonName"
+            app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/taskTitleEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_top_shape"
+                android:hint="@string/edit_task_title_hint" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/taskDescriptionLayout"
@@ -60,14 +68,16 @@
             app:layout_constraintBottom_toTopOf="@+id/taskCategoryLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/taskTitle">
+            app:layout_constraintTop_toBottomOf="@+id/taskTitleLayout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/taskDescriptionEditText"
                 android:layout_width="match_parent"
-                android:layout_height="215dp"
+                android:layout_height="150dp"
                 android:background="@drawable/rounded_top_shape"
-                android:hint="@string/create_task_description_hint" />
+                android:gravity="clip_horizontal"
+                android:hint="@string/edit_task_description_hint"
+                android:inputType="textLongMessage|textMultiLine" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -101,7 +111,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/rounded_top_shape"
-            app:layout_constraintBottom_toTopOf="@+id/taskDeadline"
+            app:layout_constraintBottom_toTopOf="@+id/taskDeadlineLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -124,25 +134,30 @@
             android:layout_marginBottom="8dp"
             android:background="@drawable/ic_add_black_24dp"
             android:backgroundTint="@color/colorPrimary"
-            android:contentDescription="@string/create_add_category_description"
+            android:contentDescription="@string/edit_add_category_description"
             app:layout_constraintBottom_toTopOf="@+id/taskPriorityLayout"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <EditText
-            android:id="@+id/taskDeadline"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/taskDeadlineLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:ems="10"
-            android:focusable="false"
-            android:hint="@string/create_task_ending_hint"
-            android:importantForAutofill="no"
-            android:inputType="none"
+            app:errorEnabled="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/taskDeadlineEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_top_shape"
+                android:focusable="false"
+                android:hint="@string/edit_task_deadline_hint" />
+        </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -154,7 +169,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/create_save"
+        android:text="@string/edit_save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

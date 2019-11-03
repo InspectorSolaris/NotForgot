@@ -192,4 +192,45 @@ object Repository {
         })
     }
 
+    fun patchTask(
+        token: String,
+        id: Int,
+        taskForm: TaskForm,
+        onFailure: (Call<Task>, Throwable) -> Unit,
+        onResponse: (Call<Task>, Response<Task>) -> Unit
+    ) {
+        val request = notForgotAPI.patchTask(TOKEN_PREFIX + token, id, taskForm)
+
+        request.enqueue(object : Callback<Task> {
+            override fun onFailure(call: Call<Task>, t: Throwable) {
+                onFailure(call, t)
+            }
+
+            override fun onResponse(call: Call<Task>, response: Response<Task>) {
+                onResponse(call, response)
+            }
+
+        })
+    }
+
+    fun deleteTask(
+        token: String,
+        id: Int,
+        onFailure: (Call<Response<Int>>, Throwable) -> Unit,
+        onResponse: (Call<Response<Int>>, Response<Response<Int>>) -> Unit
+    ) {
+        val request = notForgotAPI.deleteTask(TOKEN_PREFIX + token, id)
+
+        request.enqueue(object : Callback<Void> {
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                onFailure(call, t)
+            }
+
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                onResponse(call, response)
+            }
+
+        })
+    }
+
 }

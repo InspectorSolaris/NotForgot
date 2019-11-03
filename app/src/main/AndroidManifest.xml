@@ -23,7 +23,7 @@
             android:label="@string/title_activity_task_details"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".view.taskCreate.TaskCreateActivity"
+            android:name=".view.taskEdit.TaskEditActivity"
             android:label="@string/title_activity_task_create"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

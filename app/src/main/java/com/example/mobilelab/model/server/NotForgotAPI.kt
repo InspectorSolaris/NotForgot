@@ -10,6 +10,7 @@ import com.example.mobilelab.model.server.user.UserLoginForm
 import com.example.mobilelab.model.server.user.UserRegistrationForm
 import com.example.mobilelab.model.taskData.Priority
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface NotForgotAPI {
@@ -74,6 +75,6 @@ interface NotForgotAPI {
     fun deleteTask(
         @Header("Authorization") token: String,
         @Path("id") id: Int
-    )
+    ): Call<Void>
 
 }

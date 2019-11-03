@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.taskCreate.TaskCreateActivity">
+    tools:context=".view.taskEdit.TaskEditActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -21,6 +21,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_task_create" />
+    <include layout="@layout/content_task_edit" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

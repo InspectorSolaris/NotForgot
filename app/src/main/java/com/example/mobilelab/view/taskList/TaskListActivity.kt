@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.mobilelab.R
 import com.example.mobilelab.model.taskData.Task
 import com.example.mobilelab.presenter.taskList.TaskListPresenter
-import com.example.mobilelab.view.taskCreate.TaskCreateActivity
+import com.example.mobilelab.view.taskEdit.TaskEditActivity
 import com.example.mobilelab.presenter.taskList.recyclerView.TaskListAdapter
 import com.example.mobilelab.presenter.taskList.recyclerView.TaskListSwipeToDeleteSimpleCallback
 
@@ -41,11 +41,10 @@ class TaskListActivity :
     }
 
     companion object {
-        const val TASK_DATA = "taskData"
-        const val REQUEST_CODE_STRING = "requestCode"
-        const val REQUEST_CODE_ADD_TASK = 1
-        const val REQUEST_CODE_EDIT_TASK = 1
-        const val RESULT_CODE_ADD_TASK = 1
+        const val TASK_ID = "taskId"                    // for pass task id as parameter
+        const val REQUEST_CODE_STRING = "requestCode"   // for pass request code
+        const val REQUEST_CODE_ADD_TASK = 1             // for go in edit activity
+        const val REQUEST_CODE_EDIT_TASK = 2            // for go in details activity
     }
 
     override fun onDestroy() {
@@ -55,18 +54,15 @@ class TaskListActivity :
     }
 
     override fun onFloatingActionButtonClick() {
-        val intent = Intent(this, TaskCreateActivity::class.java)
+        val intent = Intent(this, TaskEditActivity::class.java)
 
         startActivityForResult(intent, REQUEST_CODE_ADD_TASK)
     }
 
-    override fun initRecyclerView(
-        taskDataList: ArrayList<Task>
-    ) {
+    override fun initRecyclerView() {
         val context = this
         val adapter = TaskListAdapter(
             this,
-            taskDataList,
             object :
                 TaskListAdapter.Listener {
 
@@ -82,7 +78,7 @@ class TaskListActivity :
 
             }
         )
-        val itemTouchHelper = ItemTouchHelper(
+        ItemTouchHelper(
             TaskListSwipeToDeleteSimpleCallback(
                 adapter
             )
@@ -91,7 +87,6 @@ class TaskListActivity :
         }
 
         taskListPresenter.setTaskListAdapter(adapter)
-        taskListPresenter.setItemTouchHelper(itemTouchHelper)
 
         taskList.also {
             it.setHasFixedSize(true)
@@ -108,7 +103,7 @@ class TaskListActivity :
         intent: Intent?,
         requestCode: Int
     ) {
-        taskListPresenter.onStartActivityForResult(intent, requestCode)
+        taskListPresenter.startActivityForResult(intent, requestCode)
 
         super.startActivityForResult(intent, requestCode)
     }
@@ -116,10 +111,15 @@ class TaskListActivity :
     override fun onActivityResult(
         requestCode: Int,
         resultCode: Int,
-        data: Intent?) {
+        data: Intent?
+    ) {
         super.onActivityResult(requestCode, resultCode, data)
 
-
+        taskListPresenter.onActivityResult(
+            requestCode,
+            resultCode,
+            data
+        )
     }
 
 }

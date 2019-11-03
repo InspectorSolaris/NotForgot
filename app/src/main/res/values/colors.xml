@@ -19,8 +19,8 @@
     <color name="detailsTaskName">#636363</color>
     <color name="detailsTaskDescription">#000000</color>
     <color name="detailsTaskMeta">#636363</color>
-    <color name="detailsTaskNotDone">#F71919</color>
     <color name="detailsTaskDone">#06B003</color>
+    <color name="detailsTaskNotDone">#F71919</color>
     <color name="detailsTaskPriorityText">#FFFFFF</color>
     <color name="detailsTaskPriorityLow">#4CAF50</color>
     <color name="detailsTaskPriorityMedium">#FFEB3B</color>
