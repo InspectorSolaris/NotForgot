@@ -14,6 +14,10 @@ import com.example.mobilelab.presenter.taskList.recyclerView.TaskListSwipeToDele
 
 import kotlinx.android.synthetic.main.activity_task_list.*
 import kotlinx.android.synthetic.main.content_task_list.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.util.*
 
 class TaskListActivity :
     AppCompatActivity(),
@@ -25,6 +29,14 @@ class TaskListActivity :
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_list)
         setSupportActionBar(toolbar)
+
+        Timer().schedule(object : TimerTask() {
+            override fun run() {
+                GlobalScope.launch(Dispatchers.Main) {
+                    lottieAnimation.visibility = View.GONE
+                }
+            }
+        }, 6500)
 
         taskListPresenter = TaskListPresenter(this, applicationContext)
 
