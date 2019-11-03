@@ -80,11 +80,12 @@ class TaskEditPresenter(
                     if(taskWasEdited) {
                         val token = sharedPreferencesHandler.readString(context.getString(R.string.shared_preferences_user_token))
                         val deadlineLong = SimpleDateFormat(context.getString(R.string.date_pattern), Locale.US).parse(deadline)!!.time
+                        val millsPerSec = 1000
                         val form = TaskForm(
                             title,
                             description,
                             0,
-                            deadlineLong,
+                            deadlineLong / millsPerSec,
                             Repository.getCategoriesData().find { it.name == categoryName }!!.id,
                             Repository.getPrioritiesData().find { it.name == priorityName }!!.id
                         )
@@ -95,6 +96,10 @@ class TaskEditPresenter(
                                     token,
                                     form,
                                     { _, _ ->
+                                        taskEditView?.finishActivityWithResult(
+                                            result,
+                                            null
+                                        )
                                     }
                                 ) { _, response ->
                                     if(response.body() != null) {
@@ -102,6 +107,11 @@ class TaskEditPresenter(
 
                                         taskData = response.body()!!
                                     }
+
+                                    taskEditView?.finishActivityWithResult(
+                                        result,
+                                        null
+                                    )
                                 }
                             }
                             TaskListActivity.REQUEST_CODE_EDIT_TASK -> {
@@ -110,20 +120,24 @@ class TaskEditPresenter(
                                     taskData.id,
                                     form,
                                     { _, _ ->
+                                        taskEditView?.finishActivityWithResult(
+                                            result,
+                                            null
+                                        )
                                     }
                                 ) { _, response ->
                                     if(response.body() != null) {
                                         result = Activity.RESULT_OK
                                     }
+
+                                    taskEditView?.finishActivityWithResult(
+                                        result,
+                                        null
+                                    )
                                 }
                             }
                         }
                     }
-
-                    taskEditView?.finishActivityWithResult(
-                        result,
-                        null
-                    )
                 }
             }, {}
         )
@@ -201,9 +215,10 @@ class TaskEditPresenter(
         date: Long
     ): String {
         var dateStr = ""
+        val millsPerSec = 1000
 
         if(date != -1L) {
-            dateStr = SimpleDateFormat(context.getString(R.string.date_pattern), Locale.US).format(date)
+            dateStr = SimpleDateFormat(context.getString(R.string.date_pattern), Locale.US).format(date * millsPerSec)
         }
 
         return dateStr

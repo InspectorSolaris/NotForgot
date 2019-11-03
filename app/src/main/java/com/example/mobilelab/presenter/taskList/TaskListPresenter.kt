@@ -122,10 +122,10 @@ class TaskListPresenter(
                 taskData.priority!!.id
             ),
             { _, _ ->
-                setIsCheck(taskData.done)
+                setIsCheck(Repository.getTasksData()[taskPosition].done)
             }
         ) { _, _ ->
-            setIsCheck(taskData.done)
+            setIsCheck(Repository.getTasksData()[taskPosition].done)
         }
 
     }

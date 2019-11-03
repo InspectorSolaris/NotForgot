@@ -97,9 +97,10 @@ class TaskDetailsPresenter(
         date: Long
     ): String {
         var dateStr = ""
+        val millsPerSec = 1000
 
         if(date != -1L) {
-            dateStr = SimpleDateFormat(context.getString(R.string.date_pattern), Locale.US).format(date)
+            dateStr = SimpleDateFormat(context.getString(R.string.date_pattern), Locale.US).format(date * millsPerSec)
         }
 
         return dateStr
